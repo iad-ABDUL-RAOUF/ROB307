@@ -43,6 +43,14 @@ DS_pointHomoIm1 = np.concatenate((pointIm1_i.reshape((-1,1)),
                                         axis = 1)
 
 
+# RANSAC parameters
+threshold = 5
+sample_size = 5
+goal_inliers = int(DS_height*DS_width*0.8)
+max_iterations = 10
+stop_at_goal = False
+random_seed = None
+
 while(ret):
     index += 1
     flow = cv2.calcOpticalFlowFarneback(prvs,next_frame,None, 
@@ -71,7 +79,8 @@ while(ret):
     pointHomoIm2 = pointHomoIm1 + VHomoIm1
     '''
     DS_pointHomoIm2 = DS_pointHomoIm1 + DS_VHomoIm1
-    best_model, best_ic, DS_outliersBool = fnct.run_ransac(DS_pointHomoIm1,DS_pointHomoIm2 , 5.0, 5, 800, 10)
+    best_model, best_ic, DS_outliersBool = fnct.run_ransac(DS_pointHomoIm1, DS_pointHomoIm2, threshold, sample_size, goal_inliers, max_iterations, stop_at_goal, random_seed)
+    print(np.count_nonzero(DS_outliersBool))
     '''
     # outliers = pointHomoIm1[outliersIdx,:]
     matOutBool = outliersBool.reshape((height,width))
@@ -149,7 +158,7 @@ pointIm2 = pointIm1 + Vim1
 best_model, best_ic, outliers = fnct.run_ransac(X,x , 5.0, 5, 800, 10)
 '''
 
-
+'''
 artest1 = (np.arange(8)*10).reshape((-1,1))
 artest2 = (np.arange(8)*100).reshape((-1,1))
 #mattest = 
@@ -164,5 +173,6 @@ booltest1
 mattest[booltest1]
 mattest[booltest2]
 
-
-
+'''
+''' 
+TODO : regarder le nombre d'inlier et d'outlier dans le ransacet voir si j'utilise les bon en sortie. Puis debuger le basard
