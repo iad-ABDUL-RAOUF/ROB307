@@ -5,8 +5,6 @@ Created on Tue Nov 24 09:04:43 2020
 
 @author: iad
 """
-
-
 import numpy as np
 import cv2
 import TP_rob313_function as fnct
