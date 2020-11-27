@@ -12,7 +12,7 @@ directory = '../../donnees/videos/video_vie_sauvage_youtube/'
 figDirectory = '../../figure/newFig/'
 cap = cv2.VideoCapture(directory+filename)
 #cap = cv2.VideoCapture(0)
-startIndex = 20
+startIndex = 3400
 
 # passe le début de la video
 index = 0
@@ -50,6 +50,8 @@ DS_pointHomoIm1 = np.concatenate((pointIm1_i.reshape((-1,1)),
                                          pointIm1_j.reshape((-1,1)),
                                          np.ones((DS_height*DS_width,1))),
                                         axis = 1)
+matOutBool = np.ones((height, width), dtype=bool)
+
 
 # RANSAC parameters
 threshold = 1
@@ -58,11 +60,6 @@ goal_inliers = int(DS_height*DS_width*0.6)
 max_iterations = 100
 stop_at_goal = True
 random_seed = None
-
-
-
-    
-
 
 
 while(ret):
@@ -99,14 +96,30 @@ while(ret):
         print(None)
         DS_frameOutliers = np.zeros_like(frame1[::pas,::pas,:])
         DS_frameInliers = np.zeros_like(frame1[::pas,::pas,:])
+        frameOutliers = np.zeros_like(frame1)
+        frameInliers = np.zeros_like(frame1)
     else :
         print(np.count_nonzero(DS_outliersBool))
+        # determine les objets mobile (outliers) sur l'image echantilloné
         DS_matOutBool = DS_outliersBool.reshape((DS_height,DS_width))
         DS_frameOutliers = frame1[::pas,::pas,:].copy()
         DS_frameOutliers[~DS_matOutBool] = 0
         DS_frameInliers = frame1[::pas,::pas,:].copy()
         DS_frameInliers[DS_matOutBool] = 0
+        # determine les objets mobile sur l'image complete à partir des outlier sur l'image echantilloné 
+        for i in range(pas):
+            for j in range (pas):
+                matOutBool[i::pas,j::pas] = DS_matOutBool
+        frameOutliers = frame1.copy()
+        frameOutliers[~matOutBool] = 0
+        frameInliers = frame1.copy()
+        frameInliers[matOutBool] = 0
     DS_inOutFrame = np.vstack((frame1[::pas,::pas,:],DS_frameOutliers,DS_frameInliers))
+    
+    
+    
+    
+    
 
     '''
     # outliers = pointHomoIm1[outliersIdx,:]
@@ -132,6 +145,8 @@ while(ret):
     # DS_inOutFrameDuplique[2::3, 2::3] = DS_inOutFrame
     # cv2.imshow('inliersOutliersFrames',DS_inOutFrameDuplique)
     cv2.imshow('inliersOutliersFrames',DS_inOutFrame)
+    cv2.imshow('frameOutliers',frameOutliers)
+    cv2.imshow('frameInliers',frameInliers)
     
     mag, ang = cv2.cartToPolar(flow[:,:,0], flow[:,:,1]) # Conversion cartésien vers polaire
     hsv[:,:,0] = (ang*180)/(2*np.pi) # Teinte (codée sur [0..179] dans OpenCV) <--> Argument
@@ -148,6 +163,8 @@ while(ret):
         cv2.imwrite(figDirectory+'DS_inOutFrame%04d.png'%index,DS_inOutFrame)
         cv2.imwrite(figDirectory+'DS_Outliers%04d.png'%index,DS_frameOutliers)
         cv2.imwrite(figDirectory+'DS_Inliers%04d.png'%index,DS_frameInliers)
+        cv2.imwrite(figDirectory+'Outliers%04d.png'%index,frameOutliers)
+        cv2.imwrite(figDirectory+'Inliers%04d.png'%index,frameInliers)
     prvs = next_frame
     ret, frame2 = cap.read()
     if (ret):
@@ -184,18 +201,9 @@ best_model, best_ic, outliers = fnct.run_ransac(X,x , 5.0, 5, 800, 10)
 '''
 
 '''
-artest1 = (np.arange(8)*10).reshape((-1,1))
-artest2 = (np.arange(8)*100).reshape((-1,1))
-#mattest = 
-#artest3 = np.random.randint(4,size = (8,1))
-booltest = artest3 > 1
-booltest.reshape((2,4))
 
-booltest1 = np.random.randint(2,size = (4,8)) > 0.5
-booltest2 = booltest1.reshape((-1,1))
-booltest1
-~booltest1
-mattest[booltest1]
-mattest[booltest2]
 
 '''
+
+
+
