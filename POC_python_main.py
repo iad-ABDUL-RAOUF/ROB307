@@ -41,8 +41,8 @@ pointHomoIm1 = np.concatenate((pointIm1_i.reshape((-1,1)),
 '''
 # initialise certaine grandeurs
 pas = 20
-iPixRange = np.arange(0,height,pas)
-jPixRange = np.arange(0,width,pas)
+iPixRange = np.arange(pas//2,height,pas)
+jPixRange = np.arange(pas//2,width,pas)
 DS_height = iPixRange.size
 DS_width = jPixRange.size
 pointIm1_i, pointIm1_j = np.meshgrid(iPixRange, jPixRange, indexing = 'ij')
@@ -80,8 +80,8 @@ while(ret):
                                np.zeros((height*width,1))),
                               axis = 1)
     '''
-    DS_Vi = flow[::pas,::pas,0].reshape((-1,1))
-    DS_Vj = flow[::pas,::pas,1].reshape((-1,1))
+    DS_Vi = flow[pas//2::pas,pas//2::pas,0].reshape((-1,1))
+    DS_Vj = flow[pas//2::pas,pas//2::pas,1].reshape((-1,1))
     DS_VHomoIm1 = np.concatenate((DS_Vi,
                                   DS_Vj,
                                   np.zeros((DS_height*DS_width,1))),
@@ -94,17 +94,17 @@ while(ret):
     
     if best_ic == None:
         print(None)
-        DS_frameOutliers = np.zeros_like(frame1[::pas,::pas,:])
-        DS_frameInliers = np.zeros_like(frame1[::pas,::pas,:])
+        DS_frameOutliers = np.zeros_like(frame1[pas//2::pas,pas//2::pas,:])
+        DS_frameInliers = np.zeros_like(frame1[pas//2::pas,pas//2::pas,:])
         frameOutliers = np.zeros_like(frame1)
         frameInliers = np.zeros_like(frame1)
     else :
         print(np.count_nonzero(DS_outliersBool))
         # determine les objets mobile (outliers) sur l'image echantilloné
         DS_matOutBool = DS_outliersBool.reshape((DS_height,DS_width))
-        DS_frameOutliers = frame1[::pas,::pas,:].copy()
+        DS_frameOutliers = frame1[pas//2::pas,pas//2::pas,:].copy()
         DS_frameOutliers[~DS_matOutBool] = 0
-        DS_frameInliers = frame1[::pas,::pas,:].copy()
+        DS_frameInliers = frame1[pas//2::pas,pas//2::pas,:].copy()
         DS_frameInliers[DS_matOutBool] = 0
         # determine les objets mobile sur l'image complete à partir des outlier sur l'image echantilloné 
         for i in range(pas):
@@ -114,7 +114,7 @@ while(ret):
         frameOutliers[~matOutBool] = 0
         frameInliers = frame1.copy()
         frameInliers[matOutBool] = 0
-    DS_inOutFrame = np.vstack((frame1[::pas,::pas,:],DS_frameOutliers,DS_frameInliers))
+    DS_inOutFrame = np.vstack((frame1[pas//2::pas,pas//2::pas,:],DS_frameOutliers,DS_frameInliers))
     
     
     
