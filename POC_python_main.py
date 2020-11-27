@@ -80,7 +80,20 @@ while(ret):
     '''
     DS_pointHomoIm2 = DS_pointHomoIm1 + DS_VHomoIm1
     best_model, best_ic, DS_outliersBool = fnct.run_ransac(DS_pointHomoIm1, DS_pointHomoIm2, threshold, sample_size, goal_inliers, max_iterations, stop_at_goal, random_seed)
-    print(np.count_nonzero(DS_outliersBool))
+    
+    if best_ic == None:
+        print(None)
+        DS_frameOutliers = np.zeros_like(frame1[::pas,::pas,:])
+        DS_frameInliers = np.zeros_like(frame1[::pas,::pas,:])
+    else :
+        print(np.count_nonzero(DS_outliersBool))
+        DS_matOutBool = DS_outliersBool.reshape((DS_height,DS_width))
+        DS_frameOutliers = frame1[::pas,::pas,:].copy()
+        DS_frameOutliers[~DS_matOutBool] = 0
+        DS_frameInliers = frame1[::pas,::pas,:].copy()
+        DS_frameInliers[DS_matOutBool] = 0
+    DS_inOutFrame = np.vstack((frame1[::pas,::pas,:],DS_frameOutliers,DS_frameInliers))
+
     '''
     # outliers = pointHomoIm1[outliersIdx,:]
     matOutBool = outliersBool.reshape((height,width))
@@ -91,12 +104,7 @@ while(ret):
     inliersOutliersFrame = np.vstack((frameInliers,frameOutliers,frame1))
     cv2.imshow('inliersOutliersFrames',inliersOutliersFrames)
     '''
-    DS_matOutBool = DS_outliersBool.reshape((DS_height,DS_width))
-    DS_frameOutliers = frame1[::pas,::pas,:].copy()
-    DS_frameOutliers[~DS_matOutBool] = 0
-    DS_frameInliers = frame1[::pas,::pas,:].copy()
-    DS_frameInliers[DS_matOutBool] = 0
-    DS_inOutFrame = np.vstack((frame1[::pas,::pas,:],DS_frameOutliers,DS_frameInliers))
+    
 
     # DS_inOutFrameDuplique = np.zeros((DS_inOutFrame[0]*3, DS_inOutFrame[1]*3))
     # DS_inOutFrameDuplique[0::3, 0::3] = DS_inOutFrame
@@ -174,5 +182,3 @@ mattest[booltest1]
 mattest[booltest2]
 
 '''
-''' 
-TODO : regarder le nombre d'inlier et d'outlier dans le ransacet voir si j'utilise les bon en sortie. Puis debuger le basard

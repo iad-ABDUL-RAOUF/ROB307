@@ -207,11 +207,15 @@ def run_ransac(x, Hx, threshold, sample_size, goal_inliers, max_iterations, stop
         n_inlier.append(np.count_nonzero(fittingPairs))
       n_iter = n_iter +1
 
+    if len(n_inlier) == 0:
+        return None,None,None
+    
     best_idx = np.argmax(n_inlier)
     best_model = H_list[best_idx]
     best_ic = n_inlier[best_idx]
     
     # calcul les outliers à partir de la meilleure homographie
+    
     estimated_Hx = np.matmul(x,best_model.transpose())
     estimated_Hx[:,:] = estimated_Hx[:,:]/estimated_Hx[:,2:3] # TODO si j'ai le temps : prendre en compte les points infinis (estimated_Hx[i,2:3] = 0)
     err_euclide2D = np.linalg.norm(estimated_Hx[:,0:2]-Hx[:,0:2], axis = 1)
