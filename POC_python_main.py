@@ -6,19 +6,27 @@ import time
 
 #Ouverture du flux video
 
-filename = 'Extrait1-Cosmos_Laundromat1(340p).m4v'
+filename = 'lions_chassent_buffles.m4v'
 #filename = 'Rotation_OY(Pan).m4v'
-directory = '../../donnees/videos/videos_ROB317/'
+directory = '../../donnees/videos/video_vie_sauvage_youtube/'
+figDirectory = '../../figure/newFig/'
 cap = cv2.VideoCapture(directory+filename)
 #cap = cv2.VideoCapture(0)
+startIndex = 20
 
-ret, frame1 = cap.read() # Passe à l'image suivante
+# passe le début de la video
+index = 0
+ret = True
+while(ret & (index<=startIndex)):
+    ret, frame1 = cap.read() # Passe à l'image suivante
+    index = index+1
+    print(index)
+
 (height,width,channels) = frame1.shape
 prvs = cv2.cvtColor(frame1,cv2.COLOR_BGR2GRAY) # Passage en niveaux de gris
 hsv = np.zeros_like(frame1) # Image nulle de même taille que frame1 (affichage OF)
 hsv[:,:,1] = 255 # Toutes les couleurs sont saturées au maximum
 
-index = 1
 ret, frame2 = cap.read()
 next_frame = cv2.cvtColor(frame2,cv2.COLOR_BGR2GRAY)
 
@@ -31,7 +39,8 @@ pointHomoIm1 = np.concatenate((pointIm1_i.reshape((-1,1)),
                            np.ones((height*width,1))),
                           axis = 1)
 '''
-pas = 10
+# initialise certaine grandeurs
+pas = 20
 iPixRange = np.arange(0,height,pas)
 jPixRange = np.arange(0,width,pas)
 DS_height = iPixRange.size
@@ -42,14 +51,19 @@ DS_pointHomoIm1 = np.concatenate((pointIm1_i.reshape((-1,1)),
                                          np.ones((DS_height*DS_width,1))),
                                         axis = 1)
 
-
 # RANSAC parameters
-threshold = 5
+threshold = 1
 sample_size = 5
-goal_inliers = int(DS_height*DS_width*0.8)
-max_iterations = 10
-stop_at_goal = False
+goal_inliers = int(DS_height*DS_width*0.6)
+max_iterations = 100
+stop_at_goal = True
 random_seed = None
+
+
+
+    
+
+
 
 while(ret):
     index += 1
@@ -129,8 +143,11 @@ while(ret):
     if k == 27:
         break
     elif k == ord('s'):
-        cv2.imwrite('Frame_%04d.png'%index,frame2)
-        cv2.imwrite('OF_hsv_%04d.png'%index,bgr)
+        cv2.imwrite(figDirectory+'Frame_%04d.png'%index,frame2)
+        cv2.imwrite(figDirectory+'OF_hsv_%04d.png'%index,bgr)
+        cv2.imwrite(figDirectory+'DS_inOutFrame%04d.png'%index,DS_inOutFrame)
+        cv2.imwrite(figDirectory+'DS_Outliers%04d.png'%index,DS_frameOutliers)
+        cv2.imwrite(figDirectory+'DS_Inliers%04d.png'%index,DS_frameInliers)
     prvs = next_frame
     ret, frame2 = cap.read()
     if (ret):
