@@ -8,6 +8,7 @@ import time
 
 filename = 'lions_chassent_buffles.m4v'
 #filename = 'Rotation_OY(Pan).m4v'
+#directory = '../../donnees/videos/videos_ROB317/'
 directory = '../../donnees/videos/video_vie_sauvage_youtube/'
 figDirectory = '../../figure/newFig/'
 cap = cv2.VideoCapture(directory+filename)
@@ -53,13 +54,18 @@ DS_pointHomoIm1 = np.concatenate((pointIm1_i.reshape((-1,1)),
 matOutBool = np.ones((height, width), dtype=bool)
 
 
+
+
+
+
 # RANSAC parameters
-threshold = 1
+threshold = 1 # marge d'erreur accepté en pixel pour dire qu'un point fit
 sample_size = 5
 goal_inliers = int(DS_height*DS_width*0.6)
 max_iterations = 100
 stop_at_goal = True
 random_seed = None
+
 
 
 while(ret):
@@ -89,7 +95,9 @@ while(ret):
     '''
     pointHomoIm2 = pointHomoIm1 + VHomoIm1
     '''
+    # DS_pointHomoIm1.shape = (2304, 3) = DS_VHomoIm1.shape, 2304 = DS_height*DS_width
     DS_pointHomoIm2 = DS_pointHomoIm1 + DS_VHomoIm1
+    # best_model matrice 3*3 mais OSEF, best_ic int, DS_outliersBool vecteur booleen  
     best_model, best_ic, DS_outliersBool = fnct.run_ransac(DS_pointHomoIm1, DS_pointHomoIm2, threshold, sample_size, goal_inliers, max_iterations, stop_at_goal, random_seed)
     
     if best_ic == None:
