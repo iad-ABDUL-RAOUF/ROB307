@@ -88,6 +88,23 @@ Matrix2D<float> DLT(Matrix2D<float> x, Matrix2D<float> Hx)
         valuesM[2*i+1][8] = valuesFHx[i][1];
     }
 
-    cv::SVD::compute(valuesM, );
+    int* size3 = new int[2];
+    size3[0] = size3[1] = 9;
+    Matrix2D<float> U = Matrix2D<float>(size2);
+    Matrix2D<float> S = Matrix2D<float>(size3);
+    Matrix2D<float> V = Matrix2D<float>(size3);
+    cv::SVD::compute(valuesM, U, S, V);
 
+    int* size4 = new int[2];
+    size4[0] = size4[1] = 3;
+    Matrix2D<float> H = Matrix2D<float>(size4);
+    for (int i = 0; i<3; i++)
+    {
+        for (int j = 0; j<3; j++)
+        {
+            H[i][j] = V[8][3*i+j]/V[8][8]; //On impose H[2][2] = 1
+        }
+    }
+
+    return H;
 }
