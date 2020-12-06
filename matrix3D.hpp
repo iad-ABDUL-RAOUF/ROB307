@@ -2,20 +2,20 @@ template <class T>
 class Matrix3D
 {
 private:
-    int* size[3];
+    int size[3];
     T*** values;
 public:
-    Matrix3D(int* s[3]) //constructeur
+    Matrix3D(int s[3]) //constructeur
     {
         size = s;
         allocateValues();
     }
 
-    void setSize(int* s)
+    void setSize(int s[3])
     {
         size = s;
     }
-    int* getSize()
+    int[3] getSize()
     {
         return size;
     }
