@@ -1,3 +1,6 @@
+#ifndef MATRICE_3D_H
+#define MATRICE_3D_H
+
 template <class T>
 class Matrix3D
 {
@@ -7,25 +10,32 @@ private:
 public:
     Matrix3D(int s[3]) //constructeur
     {
-        size = s;
+        size[0] = s[0];
+        size[1] = s[1];
+        size[2] = s[2];
         allocateValues();
     }
 
     void setSize(int s[3])
     {
-        size = s;
+        size[0] = s[0];
+        size[1] = s[1];
+        size[2] = s[2];
     }
-    int[3] getSize()
+    int* getSize()
     {
         return size;
     }
     
     void allocateValues()
     {
+        /*
         if (size == nullptr)
         {
-            return nullptr;
+            return nullptr; // on ne peut rein retourner la fonction est de type void
         }
+        commente ca car retourne une erreur. put etre a Remplacer par un assert
+        */ 
         T ***values = (T***) malloc(size[0] * sizeof(T**));
         for (int i = 0 ; i<size[0] ; i++)
         {
@@ -48,4 +58,12 @@ public:
     {
         return values;
     }
+    T getValue(int i, int j, int k)
+    {
+        return values[i][j][k];
+    }
 };
+
+#endif
+
+

@@ -1,3 +1,6 @@
+#ifndef MATRICE_2D_H
+#define MATRICE_2D_H
+
 template <class T>
 class Matrix2D
 {
@@ -7,25 +10,30 @@ private:
 public:
     Matrix2D(int s[2]) //constructeur
     {
-        size = s;
+        size[0] = s[0];
+        size[1] = s[1];
         allocateValues();
     }
 
     void setSize(int s[2])
     {
-        size = s;
+        size[0] = s[0];
+        size[1] = s[1];
     }
-    int[2] getSize()
+    int* getSize()
     {
         return size;
     }
     
     void allocateValues()
     {
+        /*
         if (size == nullptr)
         {
             return nullptr;
         }
+        retounre une erreur car fonction de type void. A remplacer par un assert
+        */
         T **values = (T**) malloc(size[0] * sizeof(T*));
         for (int i = 0 ; i<size[0] ; i++)
         {
@@ -44,4 +52,10 @@ public:
     {
         return values;
     }
+    T getValue(int i, int j)
+    {
+        return values[i][j];
+    }
 };
+
+#endif

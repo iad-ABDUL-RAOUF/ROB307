@@ -33,7 +33,7 @@ Matrix2D<float> DLT(Matrix2D<float> x, Matrix2D<float> Hx)
     // On sauvegarde les coordonnees des points donc a la fois l'image et l'antecedent sont finis.
     // Et on renormalise en meme temps pour que la 3e coordonnees soit egale a 1
 
-    int size[2] = {nb_finite_points,3}
+    int size[2] = {nb_finite_points,3};
     Matrix2D<float> finite_Hx = Matrix2D<float>(size);
     Matrix2D<float> finite_x = Matrix2D<float>(size);
     float** valuesFHx= finite_Hx.getValues();
@@ -87,16 +87,25 @@ Matrix2D<float> DLT(Matrix2D<float> x, Matrix2D<float> Hx)
     int sizeSVD[2] = {9,9};
     Matrix2D<float> U = Matrix2D<float>(sizeM);
     Matrix2D<float> S = Matrix2D<float>(sizeSVD);
-    Matrix2D<float> V = Matrix2D<float>(sizeSVD);
-    cv::SVD::compute(valuesM, U, S, V);
+    Matrix2D<float> tV = Matrix2D<float>(sizeSVD);
+    float** valuesU = U.getValues();
+    float** valuesS = S.getValues();
+    float** valuestV = tV.getValues();
 
+    cv::SVD::compute(valuesM, valuesU, valuesS, valuestV);
+    //SVD ne fonctionne pas car les entrees doivent etre de type cv::InputArray ou cv::Output array. Bref des types propre a open cv... 
+    // cf ce lien pour voir comment sont definis ces type. Il semblerait ques des array de double (et non des float) soit ok ?
+    // https://docs.opencv.org/3.4/d4/d32/classcv_1_1__InputArray.html#details
+    
+    
     int sizeH[2] = {3,3};
     Matrix2D<float> H = Matrix2D<float>(sizeH);
+    float** valuesH = U.getValues();
     for (int i = 0; i<3; i++)
     {
         for (int j = 0; j<3; j++)
         {
-            H[i][j] = V[8][3*i+j]/V[8][8]; //On impose H[2][2] = 1
+            valuesH[i][j] = valuestV[8][3*i+j]/valuestV[8][8]; //On impose H[2][2] = 1
         }
     }
 

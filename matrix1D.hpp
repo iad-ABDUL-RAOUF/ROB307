@@ -1,3 +1,6 @@
+#ifndef MATRICE_1D_H
+#define MATRICE_1D_H
+
 template <class T>
 class Matrix1D
 {
@@ -22,10 +25,12 @@ public:
     
     void allocateValues()
     {
+        /*
         if (size == 0)
         {
             return nullptr;
         }
+        */
         T *values = (T*) malloc(size * sizeof(T));
     }
     void setValues(T* v)
@@ -40,4 +45,10 @@ public:
     {
         return values;
     }
+    T getValue(int i)
+    {
+        return values[i];
+    }
 };
+
+#endif
