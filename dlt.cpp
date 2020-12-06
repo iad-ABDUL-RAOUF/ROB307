@@ -1,5 +1,7 @@
 #include "dlt.hpp"
 
+// Note: cours 2 rob313
+
 Matrix2D<float> DLT(Matrix2D<float> x, Matrix2D<float> Hx)
 {
     float epsilon = 0.0000001;
@@ -13,8 +15,8 @@ Matrix2D<float> DLT(Matrix2D<float> x, Matrix2D<float> Hx)
     for (int i =0; i<N;i++)
     {
         //abs codee dans stdlib n'est valable que sur des entiers
-        float compareHx = epsilon*(abs((int)valuesHx[i][0]) + abs((int)valuesHx[i][1]));
-        float comparex = epsilon*(abs((int)valuesx[i][0]) + abs((int)valuesx[i][1]));
+        float compareHx = epsilon*(fabs(valuesHx[i][0]) + fabs(valuesHx[i][1]));
+        float comparex = epsilon*(fabs(valuesx[i][0]) + fabs(valuesx[i][1]));
         finite_bool[i] = (valuesHx[i][2] > compareHx) && (valuesx[i][2] >comparex);
         if (finite_bool[i])
         {
@@ -62,15 +64,30 @@ Matrix2D<float> DLT(Matrix2D<float> x, Matrix2D<float> Hx)
     }
 
 
-    Matrix2D<float> zeroMat = Matrix2D<float>(size);
-    float** valuesZero = zeroMat.getValues();
-    float* zeros = new float[3];
-    zeros[0] = zeros[1] = zeros[2] = 0;
-    for (int i = 0 ; i<nb_finite_points ; i++)
+    int* size2 = new int[2];
+    size2[0] = 2*nb_finite_points;
+    size2[1] = 9;
+    Matrix2D<float> M = Matrix2D<float>(size2);
+    float** valuesM = M.getValues();
+    for(int i = 0; i<nb_finite_points; i++)
     {
-        valuesZero[i] = zeros;
+        valuesM[2*i][0] = -valuesFx[i][0];
+        valuesM[2*i][1] = -valuesFx[i][1];
+        valuesM[2*i][2] = -1;
+        valuesM[2*i][3] = valuesM[2*i][4] = valuesM[2*i][5] = 0;
+        valuesM[2*i][6] = valuesFHx[i][0]*valuesFx[i][0];
+        valuesM[2*i][7] = valuesFHx[i][0]*valuesFx[i][1];
+        valuesM[2*i][8] = valuesFHx[i][0];
+
+        valuesM[2*i+1][0] = valuesM[2*i+1][1] = valuesM[2*i+1][2] = 0;
+        valuesM[2*i+1][3] = -valuesFx[i][0];
+        valuesM[2*i+1][4] = -valuesFx[i][1];
+        valuesM[2*i+1][5] = -1;
+        valuesM[2*i+1][6] = valuesFHx[i][1]*valuesFx[i][0];
+        valuesM[2*i+1][7] = valuesFHx[i][1]*valuesFx[i][1];
+        valuesM[2*i+1][8] = valuesFHx[i][1];
     }
 
-
+    cv::SVD::compute(valuesM, );
 
 }
