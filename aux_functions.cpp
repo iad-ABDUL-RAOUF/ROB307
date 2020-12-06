@@ -141,3 +141,18 @@ Matrix2D<float> MatMult2D2D(Matrix2D<float> M_in1, Matrix2D<float> M_in2)
     return M_out;
 }
 
+void printMat2D(Matrix2D<float> M_in)
+{
+    int size[2] = M_in.getSize();
+    float** values = M_in.getValues();
+    printf("matrice 2D =\n");
+    for (int i = 0; i<size[0]; i++)
+    {
+        for (int j = 0 ; j< size[1] ; j++)
+        {
+            printf("%f,",values[i][j]);
+        }
+        printf("\n");
+    }
+}
+

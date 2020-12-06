@@ -34,7 +34,8 @@ int main()
     valuesH[1][2] = -77.8613246;
     valuesH[2][0] = 0.000173448284;
     valuesH[2][1] = 0.00114069045;
-    valuesH[2][2] = 1;
+    valuesH[2][2] = 1.0;
+
 
     int sizeTX[2] = {5,3};
     Matrix2D<float> tx = Matrix2D<float>(sizeTX);
