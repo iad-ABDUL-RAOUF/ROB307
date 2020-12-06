@@ -2,31 +2,31 @@ template <class T>
 class Matrix1D
 {
 private:
-    int* size;
+    int size;
     T* values;
 public:
-    Matrix1D(int* s) //constructeur
+    Matrix1D(int s) //constructeur
     {
         size = s;
         allocateValues();
     }
 
-    void setSize(int* s)
+    void setSize(int s)
     {
         size = s;
     }
-    int* getSize()
+    int getSize()
     {
         return size;
     }
     
     void allocateValues()
     {
-        if (size == nullptr)
+        if (size == 0)
         {
             return nullptr;
         }
-        T *values = (T*) malloc(size[0] * sizeof(T));
+        T *values = (T*) malloc(size * sizeof(T));
     }
     void setValues(T* v)
     {

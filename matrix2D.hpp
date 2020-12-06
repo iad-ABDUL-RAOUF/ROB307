@@ -5,7 +5,7 @@ private:
     int size[2];
     T** values;
 public:
-    Matrix2D(int* s) //constructeur
+    Matrix2D(int s[2]) //constructeur
     {
         size = s;
         allocateValues();

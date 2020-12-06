@@ -4,9 +4,7 @@
 
 int main()
 {
-    int *sizeX = new int[2];
-    size[0] = 5;
-    size[1] = 3;
+    int sizeX[2] = {5,3};
     Matrix2D<float> x = Matrix2D<float>(sizeX);
     float** valuesx = x.getValues();
     for (int i = 0; i<5; i++)
@@ -24,18 +22,18 @@ int main()
     valuesx[4][0] = 300;
     valuesx[4][1] = 140;
 
-    int *sizeH = new int[2];
-    size[0] = size[1] = 3;
+    int sizeH[2] = {3,3};
     Matrix2D<float> H = Matrix2D<float>(sizeH);
-    H[0][0] = 1.37054309;
-    H[0][1] = 0.326472981;
-    H[0][2] = -90.9781842;
-    H[1][0] = 0.00346896567;
-    H[1][1] = 1.65383589
-
-    H_true = np.array([[ 1.37054309e+00 , 3.26472981e-01 ,-9.09781842e+01],
- [ 3.46896567e-03,  1.65383589e+00, -7.78613246e+01],
- [ 1.73448284e-04,  1.14069045e-03 , 1.00000000e+00]])
+    float** valuesH = H.getValues();
+    valuesH[0][0] = 1.37054309;
+    valuesH[0][1] = 0.326472981;
+    valuesH[0][2] = -90.9781842;
+    valuesH[1][0] = 0.00346896567;
+    valuesH[1][1] = 1.65383589;
+    valuesH[1][2] = -77.8613246;
+    valuesH[2][0] = 0.000173448284;
+    valuesH[2][1] = 0.00114069045;
+    valuesH[2][2] = 1;
 
 
     return 0;

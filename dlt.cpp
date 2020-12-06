@@ -33,9 +33,7 @@ Matrix2D<float> DLT(Matrix2D<float> x, Matrix2D<float> Hx)
     // On sauvegarde les coordonnees des points donc a la fois l'image et l'antecedent sont finis.
     // Et on renormalise en meme temps pour que la 3e coordonnees soit egale a 1
 
-    int* size = new int[2];
-    size[0] = nb_finite_points;
-    size[1] = 3;
+    int size[2] = {nb_finite_points,3}
     Matrix2D<float> finite_Hx = Matrix2D<float>(size);
     Matrix2D<float> finite_x = Matrix2D<float>(size);
     float** valuesFHx= finite_Hx.getValues();
@@ -64,10 +62,8 @@ Matrix2D<float> DLT(Matrix2D<float> x, Matrix2D<float> Hx)
     }
 
 
-    int* size2 = new int[2];
-    size2[0] = 2*nb_finite_points;
-    size2[1] = 9;
-    Matrix2D<float> M = Matrix2D<float>(size2);
+    int sizeM[2] = {2*nb_finite_points, 9};
+    Matrix2D<float> M = Matrix2D<float>(sizeM);
     float** valuesM = M.getValues();
     for(int i = 0; i<nb_finite_points; i++)
     {
@@ -88,16 +84,14 @@ Matrix2D<float> DLT(Matrix2D<float> x, Matrix2D<float> Hx)
         valuesM[2*i+1][8] = valuesFHx[i][1];
     }
 
-    int* size3 = new int[2];
-    size3[0] = size3[1] = 9;
-    Matrix2D<float> U = Matrix2D<float>(size2);
-    Matrix2D<float> S = Matrix2D<float>(size3);
-    Matrix2D<float> V = Matrix2D<float>(size3);
+    int sizeSVD[2] = {9,9};
+    Matrix2D<float> U = Matrix2D<float>(sizeM);
+    Matrix2D<float> S = Matrix2D<float>(sizeSVD);
+    Matrix2D<float> V = Matrix2D<float>(sizeSVD);
     cv::SVD::compute(valuesM, U, S, V);
 
-    int* size4 = new int[2];
-    size4[0] = size4[1] = 3;
-    Matrix2D<float> H = Matrix2D<float>(size4);
+    int sizeH[2] = {3,3};
+    Matrix2D<float> H = Matrix2D<float>(sizeH);
     for (int i = 0; i<3; i++)
     {
         for (int j = 0; j<3; j++)
