@@ -2,6 +2,7 @@
 #include <stdlib.h> //pour malloc. contenu dans le compilateur 
 #include "matrix3D.hpp"
 #include "matrix2D.hpp"
+#include "matrix1D.hpp"
 
 Matrix3D<float> sum3Dmat(Matrix3D<float> M_in1, Matrix3D<float> M_in2);
 Matrix2D<float> sum2Dmat(Matrix2D<float> M_in1, Matrix2D<float> M_in2);
