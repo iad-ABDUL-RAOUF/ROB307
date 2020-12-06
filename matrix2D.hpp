@@ -36,9 +36,9 @@ public:
     {
         values = v ;
     }
-    void setValue(int i, int j, int k, T v)
+    void setValue(int i, int j, T v)
     {
-        values[i][j][k] = v;
+        values[i][j] = v;
     }
     T** getValues()
     {
