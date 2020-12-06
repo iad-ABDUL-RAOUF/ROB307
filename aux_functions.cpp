@@ -40,21 +40,42 @@ Matrix2D<float> sum2Dmat(Matrix2D<float> M_in1, Matrix2D<float> M_in2)
     return M_out ;
 }
 
-Matrix2D<float> homoStandard(Matrix2D<float> M_in)
+Matrix2D<float> homoStandard(Matrix2D<float> M_in, float eps)
 {
     int size[2] = M_in.getSize();
     Matrix2D<float> M_out = Matrix2D<float>(size);
     float** valuesOut = M_out.getValues();
     float** valuesIn = M_in.getValues();
+    int* nTrue = 0;
+    Matrix1D<bool> isFinite = homoFinite(nTrue, M_in, eps);
+    float norm = 0.0;
     for (int i = 0; i<size[0]; i++)
     {
-        for (int j = 0 ; j< size[1] ; j++)
+        if isFinite[i]
         {
-            valuesOut[i][j] = valuesIn[i][j]/valuesIn[i][size[1]-1];
+            for (int j = 0 ; j< size[1] ; j++)
+            {
+                valuesOut[i][j] = valuesIn[i][j]/valuesIn[i][size[1]-1];
+            }
+        }
+        else //on impose la dernire coordonnee a zeros et on divise les autres par la norme du vecteur
+        {
+            norm = 0.0;
+            for (int j = 0 ; j< (size[1]-1) ; j++)
+            {
+                norm += valuesIn[i][j]*valuesIn[i][j];
+            }
+            norm = sqrt(norm)
+            for (int j = 0 ; j< (size[1]-1) ; j++)
+            {
+                valuesOut[i][j] = valuesIn[i][j]/norm;
+            }
+            valuesOut[i][size[1]-1] = 0.0
         }
     }
     return M_out;
 }
+
 Matrix1D<bool> homoFinite(int* nTrue, Matrix2D<float> M_in, float eps)
 {
     int size[2] = M_in.getSize();
