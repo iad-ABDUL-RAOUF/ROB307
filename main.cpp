@@ -1,10 +1,11 @@
 #include "dlt.hpp"
 #include "matrix2D.hpp"
 #include "matrix3D.hpp"
+#include "aux_functions.hpp"
 
 int main()
 {
-    int sizeX[2] = {5,3};
+    int sizeX[2] = {3,5};
     Matrix2D<float> x = Matrix2D<float>(sizeX);
     float** valuesx = x.getValues();
     for (int i = 0; i<5; i++)
@@ -35,6 +36,16 @@ int main()
     valuesH[2][1] = 0.00114069045;
     valuesH[2][2] = 1;
 
+    int sizeTX[2] = {5,3};
+    Matrix2D<float> tx = Matrix2D<float>(sizeTX);
+    tx = transpose2D(x);
+    
+    Matrix2D<float>tHx = Matrix2D<float>(sizeTX);
+    tHx = MatMult2D2D(H,tx);
 
+    Matrix2D<float> Hx = Matrix2D<float>(sizeX);
+    Hx = transpose2D(tHx);
+
+    
     return 0;
 }
