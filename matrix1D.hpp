@@ -1,11 +1,11 @@
 template <class T>
-class Matrix2D
+class Matrix1D
 {
 private:
     int* size;
-    T** values;
+    T* values;
 public:
-    Matrix2D(int* s) //constructeur
+    Matrix1D(int* s) //constructeur
     {
         size = s;
         allocateValues();
@@ -26,21 +26,17 @@ public:
         {
             return nullptr;
         }
-        T **values = (T**) malloc(size[0] * sizeof(T*));
-        for (int i = 0 ; i<size[0] ; i++)
-        {
-            values[i] = (T*) malloc(size[1] * sizeof(T));
-        }
+        T *values = (T*) malloc(size[0] * sizeof(T));
     }
-    void setValues(T** v)
+    void setValues(T* v)
     {
         values = v ;
     }
-    void setValue(int i, int j, T v)
+    void setValue(int i, T v)
     {
-        values[i][j] = v;
+        values[i] = v;
     }
-    T** getValues()
+    T* getValues()
     {
         return values;
     }
