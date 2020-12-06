@@ -1,17 +1,11 @@
 #include "aux_functions.hpp"
 
-float*** sum_flow(int* size,float*** DS_pointHomoIm2, float*** DS_pointHomoIm1, float*** DS_VHomoIm1)
+Matrix3D<float> sum_flow(Matrix3D<float> DS_pointHomoIm2, Matrix3D<float> DS_pointHomoIm1, Matrix3D<float> DS_VHomoIm1)
 {
-    // float ***DS_pointHomoIm2 = (float***) malloc(size[0] * sizeof(float**));
-    // for (int i = 0 ; i<size[0] ; i++)
-    // {
-    //     DS_pointHomoIm2[i] = (float**) malloc(size[1] * sizeof(float*));
-    //     for (int j = 0 ; i<size[1] ; j++)
-    //     {
-    //         DS_pointHomoIm2[i][j] = (float*) malloc(size[2] * sizeof(float));
-    //     }
-    // }
-    
+    int *size = DS_pointHomoIm2.getSize();
+    float*** values = DS_pointHomoIm2.getValues();
+    float*** values1 = DS_pointHomoIm1.getValues();
+    float*** values2 = DS_VHomoIm1.getValues();
     
     for (int i = 0; i<size[0]; i++)
     {
@@ -19,7 +13,7 @@ float*** sum_flow(int* size,float*** DS_pointHomoIm2, float*** DS_pointHomoIm1, 
         {
             for (int k = 0 ; k<size[2] ; k++)
             {
-                DS_pointHomoIm2[i][j][k] = DS_pointHomoIm1[i][j][k] + DS_VHomoIm1[i][j][k];
+                values[i][j][k] = values1[i][j][k] + values2[i][j][k];
             }
         }
     }

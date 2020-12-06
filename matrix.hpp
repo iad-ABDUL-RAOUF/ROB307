@@ -40,7 +40,7 @@ public:
     {
         values = v ;
     }
-    void setValue(int i; int j; int k; T v)
+    void setValue(int i, int j, int k, T v)
     {
         values[i][j][k] = v;
     }
