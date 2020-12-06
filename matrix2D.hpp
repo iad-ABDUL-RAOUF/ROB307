@@ -2,10 +2,10 @@ template <class T>
 class Matrix2D
 {
 private:
-    int* size[2];
+    int* size;
     T** values;
 public:
-    Matrix2D(int* s[2]) //constructeur
+    Matrix2D(int* s) //constructeur
     {
         size = s;
         allocateValues();
