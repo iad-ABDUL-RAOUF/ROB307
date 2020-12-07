@@ -1,5 +1,6 @@
 #ifndef MATRICE_2D_H
 #define MATRICE_2D_H
+#include <assert.h>
 
 template <class T>
 class Matrix2D

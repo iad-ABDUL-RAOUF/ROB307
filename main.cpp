@@ -55,6 +55,7 @@ int main()
 
     printf("Estimating H with DLT algorithm\n");
     Matrix2D<float> estimatedH = Matrix2D<float>(sizeH);
+    printf("main l58 \n");
     estimatedH = DLT(x,Hx);
 
     printf("Estimated H : \n");

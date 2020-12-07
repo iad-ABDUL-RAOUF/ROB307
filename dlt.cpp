@@ -4,6 +4,7 @@
 
 Matrix2D<float> DLT(Matrix2D<float> x, Matrix2D<float> Hx)
 {
+    printf("DLT debut \n");
     float epsilon = 0.0000001;
     int N = x.getSize()[0] ;
     float** valuesHx = Hx.getValues();
@@ -12,18 +13,24 @@ Matrix2D<float> DLT(Matrix2D<float> x, Matrix2D<float> Hx)
     int nb_finite_points=0 ;
 
     // calcul de qui sont les points finis, et combien ils sont
+    printf("calcul de qui sont les points finis \n");
     for (int i =0; i<N;i++)
     {
         //abs codee dans stdlib n'est valable que sur des entiers
+        printf("l20 \n");
         float compareHx = epsilon*(fabs(valuesHx[i][0]) + fabs(valuesHx[i][1]));
+        printf("l22 \n");
         float comparex = epsilon*(fabs(valuesx[i][0]) + fabs(valuesx[i][1]));
+        printf("l24 \n");
         finite_bool[i] = (valuesHx[i][2] > compareHx) && (valuesx[i][2] >comparex);
+        printf("l26 \n");
         if (finite_bool[i])
         {
             nb_finite_points++;
         }
+        printf("---- fin boucle for ---- \n");
     }
-
+    printf("erreur si pas assez de points \n");
     if(nb_finite_points <4)
     {
         printf("not enough finite point in DLTcalib2 input. A least 4 finite pairs required");
@@ -32,7 +39,7 @@ Matrix2D<float> DLT(Matrix2D<float> x, Matrix2D<float> Hx)
 
     // On sauvegarde les coordonnees des points donc a la fois l'image et l'antecedent sont finis.
     // Et on renormalise en meme temps pour que la 3e coordonnees soit egale a 1
-
+    printf("sauvegarde des points finis \n");
     int size[2] = {nb_finite_points,3};
     Matrix2D<float> finite_Hx = Matrix2D<float>(size);
     Matrix2D<float> finite_x = Matrix2D<float>(size);
@@ -60,8 +67,9 @@ Matrix2D<float> DLT(Matrix2D<float> x, Matrix2D<float> Hx)
             }
         }
     }
-
-
+    
+    // creation de la matrice M du systeme
+    printf("creation de la matrice M du systeme \n");
     int sizeM[2] = {2*nb_finite_points, 9};
     Matrix2D<float> M = Matrix2D<float>(sizeM);
     float** valuesM = M.getValues();
@@ -115,6 +123,7 @@ Matrix2D<float> DLT(Matrix2D<float> x, Matrix2D<float> Hx)
     }
     */
     // retourne la matrice identite. Sert a tester le code
+    printf("construction fake H \n");
     int sizeH[2] = {3,3};
     Matrix2D<float> H = Matrix2D<float>(sizeH);
     float** valuesH = H.getValues();
