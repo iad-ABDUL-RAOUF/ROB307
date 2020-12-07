@@ -83,7 +83,7 @@ Matrix2D<float> DLT(Matrix2D<float> x, Matrix2D<float> Hx)
         valuesM[2*i+1][7] = valuesFHx[i][1]*valuesFx[i][1];
         valuesM[2*i+1][8] = valuesFHx[i][1];
     }
-
+    /*
     std::vector<vector<float>> vectM(sizeM[0], vector<float> (sizeM[1], 0));
     for (int i = 0; i<sizeM[0]; i++)
     {
@@ -97,11 +97,11 @@ Matrix2D<float> DLT(Matrix2D<float> x, Matrix2D<float> Hx)
     std::vector<vector<float>> vectS(sizeSVD[0], vector<float> (sizeSVD[1], 0));
     std::vector<vector<float>> vecttV(sizeSVD[0], vector<float> (sizeSVD[1], 0));
 
+
     cv::SVD::compute(vectM, vectU, vectS, vecttV);
     //SVD ne fonctionne pas car les entrees doivent etre de type cv::InputArray ou cv::Output array. Bref des types propre a open cv... 
     // cf ce lien pour voir comment sont definis ces type. Il semblerait ques des array de double (et non des float) soit ok ?
     // https://docs.opencv.org/3.4/d4/d32/classcv_1_1__InputArray.html#details
-    
     
     int sizeH[2] = {3,3};
     Matrix2D<float> H = Matrix2D<float>(sizeH);
@@ -113,6 +113,23 @@ Matrix2D<float> DLT(Matrix2D<float> x, Matrix2D<float> Hx)
             valuesH[i][j] = vecttV[8][3*i+j]/vecttV[8][8]; //On impose H[2][2] = 1
         }
     }
-
+    */
+    // retourne la matrice identite. Sert a tester le code
+    int sizeH[2] = {3,3};
+    Matrix2D<float> H = Matrix2D<float>(sizeH);
+    float** valuesH = H.getValues();
+    for (int i = 0; i<3; i++)
+    {
+        for (int j = 0; j<3; j++)
+        {
+            if (j == i){
+                valuesH[i][j] = 1;
+            }
+            else{
+                valuesH[i][j] = 0;
+            }
+        }
+    }
+    
     return H;
 }
