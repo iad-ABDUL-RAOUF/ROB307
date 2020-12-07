@@ -25,6 +25,8 @@ int main()
     valuesx[3][1] = 200;
     valuesx[4][0] = 300;
     valuesx[4][1] = 140;
+    printf("x : \n");
+    printMat2D(x);
 
     printf("Creating H\n");
     int sizeH[2] = {3,3};
@@ -39,25 +41,32 @@ int main()
     valuesH[2][0] = 0.000173448284;
     valuesH[2][1] = 0.00114069045;
     valuesH[2][2] = 1.0;
+    printf("H : \n");
+    printMat2D(H);
+
 
     printf("Transposing x\n");
     int sizeTX[2] = {3,5};
     Matrix2D<float> tx = Matrix2D<float>(sizeTX);
     tx = transpose2D(x);
+    printf("tx : \n");
+    printMat2D(tx);
     
     printf("Multiplying H and tx\n");
     Matrix2D<float>tHx = Matrix2D<float>(sizeTX);
     tHx = MatMult2D2D(H,tx);
+    printf("tHx : \n");
+    printMat2D(tHx);
 
     printf("Creating Hx\n");
     Matrix2D<float> Hx = Matrix2D<float>(sizeX);
     Hx = transpose2D(tHx);
-
+    printf("Hx : \n");
+    printMat2D(Hx);
+    
     printf("Estimating H with DLT algorithm\n");
     Matrix2D<float> estimatedH = Matrix2D<float>(sizeH);
-    printf("main l58 \n");
     estimatedH = DLT(x,Hx);
-
     printf("Estimated H : \n");
     printMat2D(estimatedH);
     

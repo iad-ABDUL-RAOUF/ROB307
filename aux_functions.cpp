@@ -104,13 +104,13 @@ Matrix1D<bool> homoFinite(Matrix2D<float> M_in, float eps, int* nTrue)
 Matrix2D<float> transpose2D(Matrix2D<float> M_in)
 {
     int* size = M_in.getSize();
-    int sizeTranspose[2] = {size[0], size[1]};
+    int sizeTranspose[2] = {size[1], size[0]};
     Matrix2D<float> M_out = Matrix2D<float>(sizeTranspose);
     float** valuesOut = M_out.getValues();
     float** valuesIn = M_in.getValues();
-    for (int i = 0; i<size[0]; i++)
+    for (int i = 0; i<sizeTranspose[0]; i++)
     {
-        for (int j = 0 ; j< size[1] ; j++)
+        for (int j = 0 ; j< sizeTranspose[1] ; j++)
         {
             valuesOut[i][j] = valuesIn[j][i];
         }

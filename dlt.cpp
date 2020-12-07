@@ -4,7 +4,7 @@
 
 Matrix2D<float> DLT(Matrix2D<float> x, Matrix2D<float> Hx)
 {
-    printf("DLT debut \n");
+    printf("---- DLT debut ---- \n");
     float epsilon = 0.0000001;
     int N = x.getSize()[0] ;
     float** valuesHx = Hx.getValues();
@@ -17,20 +17,14 @@ Matrix2D<float> DLT(Matrix2D<float> x, Matrix2D<float> Hx)
     for (int i =0; i<N;i++)
     {
         //abs codee dans stdlib n'est valable que sur des entiers
-        printf("l20 \n");
         float compareHx = epsilon*(fabs(valuesHx[i][0]) + fabs(valuesHx[i][1]));
-        printf("l22 \n");
         float comparex = epsilon*(fabs(valuesx[i][0]) + fabs(valuesx[i][1]));
-        printf("l24 \n");
         finite_bool[i] = (valuesHx[i][2] > compareHx) && (valuesx[i][2] >comparex);
-        printf("l26 \n");
         if (finite_bool[i])
         {
             nb_finite_points++;
         }
-        printf("---- fin boucle for ---- \n");
     }
-    printf("erreur si pas assez de points \n");
     if(nb_finite_points <4)
     {
         printf("not enough finite point in DLTcalib2 input. A least 4 finite pairs required");
@@ -139,6 +133,6 @@ Matrix2D<float> DLT(Matrix2D<float> x, Matrix2D<float> Hx)
             }
         }
     }
-    
+    printf("---- DLT fin ---- \n");
     return H;
 }
