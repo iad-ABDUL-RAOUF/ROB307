@@ -8,12 +8,12 @@ int main()
     printf("#### Start ####\n");
 
     printf("Creating x\n");
-    int sizeX[2] = {3,5};
+    int sizeX[2] = {5,3};
     Matrix2D<float> x = Matrix2D<float>(sizeX);
     float** valuesx = x.getValues();
     for (int i = 0; i<5; i++)
     {
-        valuesx[2][i] = 1;
+        valuesx[i][2] = 1;
     }
     valuesx[0][0] = 100;
     valuesx[0][1] = 440;
@@ -41,7 +41,7 @@ int main()
     valuesH[2][2] = 1.0;
 
     printf("Transposing x\n");
-    int sizeTX[2] = {5,3};
+    int sizeTX[2] = {3,5};
     Matrix2D<float> tx = Matrix2D<float>(sizeTX);
     tx = transpose2D(x);
     
