@@ -85,6 +85,8 @@ Matrix2D<float> DLT(Matrix2D<float> x, Matrix2D<float> Hx)
         valuesM[2*i+1][7] = valuesFHx[i][1]*valuesFx[i][1];
         valuesM[2*i+1][8] = valuesFHx[i][1];
     }
+    printf("M : \n");
+    printMat2D(M);
     /*
     std::vector<vector<float>> vectM(sizeM[0], vector<float> (sizeM[1], 0));
     for (int i = 0; i<sizeM[0]; i++)

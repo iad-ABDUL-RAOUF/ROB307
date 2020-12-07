@@ -15,4 +15,5 @@ Matrix2D<float> MatMult2D2D(Matrix2D<float> M_in1, Matrix2D<float> M_in2);
 Matrix2D<float> homoStandard(Matrix2D<float> M_in, float eps);
 Matrix1D<bool> homoFinite(Matrix2D<float> M_in, float eps, int* nTrue);
 // affichage
+void printMat3D(Matrix3D<float> M_in);
 void printMat2D(Matrix2D<float> M_in);

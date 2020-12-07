@@ -5,7 +5,49 @@
 
 int main()
 {
-    printf("#### Start ####\n");
+    printf("#### Start main ####\n");
+    
+    printf("Create M1\n");
+    int sizeM1[3] = {4,3,2};
+    printf("l12\n");
+    Matrix3D<float> M1 = Matrix3D<float>(sizeM1);
+    printf("l14\n");
+    float*** valuesM1 = M1.getValues();
+    printf("l16\n");
+    for (int i = 0; i<sizeM1[0]; i++)
+    {
+        for (int j = 0 ; j< sizeM1[1] ; j++)
+        {
+            for (int k = 0 ; k<sizeM1[2] ; k++)
+            {
+                valuesM1[i][j][k] = -1000 + 1000*i +100*j +10*k;
+            }
+        }
+    }
+    printf("M1 : \n");
+    printMat3D(M1);
+    
+    printf("Create M2\n");
+    Matrix3D<float> M2 = Matrix3D<float>(sizeM1);
+    float*** valuesM2 = M2.getValues();
+    for (int i = 0; i<sizeM1[0]; i++)
+    {
+        for (int j = 0 ; j< sizeM1[1] ; j++)
+        {
+            for (int k = 0 ; k<sizeM1[2] ; k++)
+            {
+                valuesM2[i][j][k] = 0.1*i +0.01*j +0.001*k;
+            }
+        }
+    }
+    printf("M2 : \n");
+    printMat3D(M2);
+
+    printf("Compute M3 = \n");
+    Matrix3D<float> M3 = Matrix3D<float>(sizeM1);
+    M3 = sum3Dmat(M1, M2);
+    printf("M3 : \n");
+    printMat3D(M3);
 
     printf("Creating x\n");
     int sizeX[2] = {5,3};
@@ -70,5 +112,7 @@ int main()
     printf("Estimated H : \n");
     printMat2D(estimatedH);
     
+    
+    printf("#### End main ####\n");
     return 0;
 }

@@ -8,6 +8,7 @@
 //#include <vector> //a enlever pour Vivado
 #include "matrix3D.hpp"
 #include "matrix2D.hpp"
+#include "aux_functions.hpp"
 
 // using namespace cv // a enlever pour Vivado
 // using namespace std
