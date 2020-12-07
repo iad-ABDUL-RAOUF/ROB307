@@ -84,15 +84,20 @@ Matrix2D<float> DLT(Matrix2D<float> x, Matrix2D<float> Hx)
         valuesM[2*i+1][8] = valuesFHx[i][1];
     }
 
+    std::vector<vector<float>> vectM(sizeM[0], vector<float> (sizeM[1], 0));
+    for (int i = 0; i<sizeM[0]; i++)
+    {
+        for (int j = 0; j<sizeM[1]; j++)
+        {
+            vectM[i][j] = valuesM[i][j];
+        }
+    }
+    std::vector<vector<float>> vectU(sizeM[0], vector<float> (sizeM[1], 0));
     int sizeSVD[2] = {9,9};
-    Matrix2D<float> U = Matrix2D<float>(sizeM);
-    Matrix2D<float> S = Matrix2D<float>(sizeSVD);
-    Matrix2D<float> tV = Matrix2D<float>(sizeSVD);
-    float** valuesU = U.getValues();
-    float** valuesS = S.getValues();
-    float** valuestV = tV.getValues();
+    std::vector<vector<float>> vectS(sizeSVD[0], vector<float> (sizeSVD[1], 0));
+    std::vector<vector<float>> vecttV(sizeSVD[0], vector<float> (sizeSVD[1], 0));
 
-    cv::SVD::compute(valuesM, valuesU, valuesS, valuestV);
+    cv::SVD::compute(vectM, vectU, vectS, vecttV);
     //SVD ne fonctionne pas car les entrees doivent etre de type cv::InputArray ou cv::Output array. Bref des types propre a open cv... 
     // cf ce lien pour voir comment sont definis ces type. Il semblerait ques des array de double (et non des float) soit ok ?
     // https://docs.opencv.org/3.4/d4/d32/classcv_1_1__InputArray.html#details
@@ -100,12 +105,12 @@ Matrix2D<float> DLT(Matrix2D<float> x, Matrix2D<float> Hx)
     
     int sizeH[2] = {3,3};
     Matrix2D<float> H = Matrix2D<float>(sizeH);
-    float** valuesH = U.getValues();
+    float** valuesH = H.getValues();
     for (int i = 0; i<3; i++)
     {
         for (int j = 0; j<3; j++)
         {
-            valuesH[i][j] = valuestV[8][3*i+j]/valuestV[8][8]; //On impose H[2][2] = 1
+            valuesH[i][j] = vecttV[8][3*i+j]/vecttV[8][8]; //On impose H[2][2] = 1
         }
     }
 
