@@ -34,10 +34,13 @@ public:
         }
         retounre une erreur car fonction de type void. A remplacer par un assert
         */
+        assert(size !=nullptr);
         values = (T**) malloc(size[0] * sizeof(T*));
+        assert(values);
         for (int i = 0 ; i<size[0] ; i++)
         {
             values[i] = (T*) malloc(size[1] * sizeof(T));
+            assert(values[i]);
         }
     }
     void setValues(T** v)
