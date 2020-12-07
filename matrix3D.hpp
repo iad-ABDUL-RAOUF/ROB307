@@ -36,7 +36,7 @@ public:
         }
         commente ca car retourne une erreur. put etre a Remplacer par un assert
         */ 
-        T ***values = (T***) malloc(size[0] * sizeof(T**));
+        values = (T***) malloc(size[0] * sizeof(T**));
         for (int i = 0 ; i<size[0] ; i++)
         {
             values[i] = (T**) malloc(size[1] * sizeof(T*));

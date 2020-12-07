@@ -5,6 +5,9 @@
 
 int main()
 {
+    printf("#### Start ####\n");
+
+    printf("Creating x\n");
     int sizeX[2] = {3,5};
     Matrix2D<float> x = Matrix2D<float>(sizeX);
     float** valuesx = x.getValues();
@@ -23,6 +26,7 @@ int main()
     valuesx[4][0] = 300;
     valuesx[4][1] = 140;
 
+    printf("Creating H\n");
     int sizeH[2] = {3,3};
     Matrix2D<float> H = Matrix2D<float>(sizeH);
     float** valuesH = H.getValues();
@@ -36,17 +40,25 @@ int main()
     valuesH[2][1] = 0.00114069045;
     valuesH[2][2] = 1.0;
 
-
+    printf("Transposing x\n");
     int sizeTX[2] = {5,3};
     Matrix2D<float> tx = Matrix2D<float>(sizeTX);
     tx = transpose2D(x);
     
+    printf("Multiplying H and tx\n");
     Matrix2D<float>tHx = Matrix2D<float>(sizeTX);
     tHx = MatMult2D2D(H,tx);
 
+    printf("Creating Hx\n");
     Matrix2D<float> Hx = Matrix2D<float>(sizeX);
     Hx = transpose2D(tHx);
 
+    printf("Estimating H with DLT algorithm\n");
+    Matrix2D<float> estimatedH = Matrix2D<float>(sizeH);
+    estimatedH = DLT(x,Hx);
+
+    printf("Estimated H : \n");
+    printMat2D(estimatedH);
     
     return 0;
 }

@@ -31,7 +31,7 @@ public:
             return nullptr;
         }
         */
-        T *values = (T*) malloc(size * sizeof(T));
+        values = (T*)malloc(size * sizeof(T));
     }
     void setValues(T* v)
     {
