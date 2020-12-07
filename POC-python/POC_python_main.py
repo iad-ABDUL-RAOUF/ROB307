@@ -9,8 +9,8 @@ import time
 filename = 'lions_chassent_buffles.m4v'
 #filename = 'Rotation_OY(Pan).m4v'
 #directory = '../../donnees/videos/videos_ROB317/'
-directory = '../../donnees/videos/video_vie_sauvage_youtube/'
-figDirectory = '../../figure/newFig/'
+directory = '../../../donnees/videos/video_vie_sauvage_youtube/'
+figDirectory = '../../../figure/newFig/'
 cap = cv2.VideoCapture(directory+filename)
 #cap = cv2.VideoCapture(0)
 startIndex = 3400
