@@ -1,5 +1,6 @@
 #ifndef MATRICE_3D_H
 #define MATRICE_3D_H
+#include <assert.h>
 
 template <class T>
 class Matrix3D
@@ -35,16 +36,21 @@ public:
             return nullptr; // on ne peut rein retourner la fonction est de type void
         }
         commente ca car retourne une erreur. put etre a Remplacer par un assert
-        */ 
+        */
+        assert(size !=nullptr);
         values = (T***) malloc(size[0] * sizeof(T**));
+        assert(values);
         for (int i = 0 ; i<size[0] ; i++)
         {
             values[i] = (T**) malloc(size[1] * sizeof(T*));
-            for (int j = 0 ; i<size[1] ; j++)
+            assert(values[i]);
+            for (int j = 0 ; j<size[1] ; j++)
             {
                 values[i][j] = (T*) malloc(size[2] * sizeof(T));
+                assert(values[i][j]);
             }
         }
+        printf("end allocateValues mat3D\n");              
     }
     void setValues(T*** v)
     {

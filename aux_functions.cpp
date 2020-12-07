@@ -148,7 +148,7 @@ void printMat3D(Matrix3D<float> M_in)
     printf("matrice 3D =\n");
     for (int i = 0; i<size[0]; i++)
     {
-        printf("ligne i = %d =\n",i);
+        printf("ligne i = %d\n",i);
         for (int j = 0 ; j< size[1] ; j++)
         {
             for (int k = 0 ; k< size[2] ; k++)
