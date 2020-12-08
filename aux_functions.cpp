@@ -40,6 +40,70 @@ Matrix2D<float> sum2Dmat(Matrix2D<float> M_in1, Matrix2D<float> M_in2)
     return M_out ;
 }
 
+
+Matrix2D<float> transpose2D(Matrix2D<float> M_in)
+{
+    int* size = M_in.getSize();
+    int sizeTranspose[2] = {size[1], size[0]};
+    Matrix2D<float> M_out = Matrix2D<float>(sizeTranspose);
+    float** valuesOut = M_out.getValues();
+    float** valuesIn = M_in.getValues();
+    for (int i = 0; i<sizeTranspose[0]; i++)
+    {
+        for (int j = 0 ; j< sizeTranspose[1] ; j++)
+        {
+            valuesOut[i][j] = valuesIn[j][i];
+        }
+    }
+    return M_out;
+}
+
+Matrix2D<float> MatMult2D2D(Matrix2D<float> M_in1, Matrix2D<float> M_in2)
+{
+    int* sizeIn1 = M_in1.getSize();
+    int* sizeIn2 = M_in2.getSize();
+    int sizeOut[2] = {sizeIn1[0], sizeIn2[1]};
+    Matrix2D<float> M_out = Matrix2D<float>(sizeOut);
+    float** valuesOut = M_out.getValues();
+    float** valuesIn1 = M_in1.getValues();
+    float** valuesIn2 = M_in2.getValues();
+    for (int i = 0; i<sizeOut[0]; i++)
+    {
+        for (int j = 0 ; j< sizeOut[1] ; j++)
+        {
+            valuesOut[i][j] = 0;
+            for (int k = 0 ; k< sizeIn1[0] ; k++)
+            {
+                valuesOut[i][j] += valuesIn1[i][k]*valuesIn2[k][j];
+            }
+        }
+    }
+    return M_out;
+}
+
+Matrix1D<float> normByRow(Matrix2D<float> M_in)
+{
+    int* size = M_in.getSize();
+    int sizeOut = size[0];
+    Matrix1D<float> M_out = Matrix1D<float>(sizeOut);
+    bool* valuesOut = M_out.getValues();
+    float** valuesIn = M_in.getValues();
+    float tmp = 0.0;
+    *nTrue = 0;
+    
+    for (int i =0; i<size[0];i++)
+    {
+        tmp = 0.0;
+        for (int j =0; i<size[1]-1;i++)
+        {
+            tmp += valuesIn[i][j]*valuesIn[i][j];
+        }
+        valuesOut[i] = sqrt(tmp);
+    }
+    return M_out;
+}
+
+
 Matrix2D<float> homoStandard(Matrix2D<float> M_in, float eps)
 {
     int* size = M_in.getSize();
@@ -88,6 +152,7 @@ Matrix1D<bool> homoFinite(Matrix2D<float> M_in, float eps, int* nTrue)
     
     for (int i =0; i<size[0];i++)
     {
+        tmp = 0.0
         for (int j =0; i<size[1]-1;i++)
         {
             tmp += fabs(valuesIn[i][j]);
@@ -101,45 +166,30 @@ Matrix1D<bool> homoFinite(Matrix2D<float> M_in, float eps, int* nTrue)
     }
     return M_out;
 }
-Matrix2D<float> transpose2D(Matrix2D<float> M_in)
+
+/*
+Matrix1D<float> normByRowHomo(Matrix2D<float> M_in)
 {
     int* size = M_in.getSize();
-    int sizeTranspose[2] = {size[1], size[0]};
-    Matrix2D<float> M_out = Matrix2D<float>(sizeTranspose);
-    float** valuesOut = M_out.getValues();
+    int sizeOut = size[0];
+    Matrix1D<float> M_out = Matrix1D<float>(sizeOut);
+    bool* valuesOut = M_out.getValues();
     float** valuesIn = M_in.getValues();
-    for (int i = 0; i<sizeTranspose[0]; i++)
+    float tmp = 0.0;
+    *nTrue = 0;
+    
+    for (int i =0; i<size[0];i++)
     {
-        for (int j = 0 ; j< sizeTranspose[1] ; j++)
+        tmp = 0.0;
+        for (int j =0; i<size[1]-1;i++)
         {
-            valuesOut[i][j] = valuesIn[j][i];
+            tmp += valuesIn[i][j]*valuesIn[i][j];
         }
+        valuesOut[i] = sqrt(tmp);
     }
     return M_out;
 }
-
-Matrix2D<float> MatMult2D2D(Matrix2D<float> M_in1, Matrix2D<float> M_in2)
-{
-    int* sizeIn1 = M_in1.getSize();
-    int* sizeIn2 = M_in2.getSize();
-    int sizeOut[2] = {sizeIn1[0], sizeIn2[1]};
-    Matrix2D<float> M_out = Matrix2D<float>(sizeOut);
-    float** valuesOut = M_out.getValues();
-    float** valuesIn1 = M_in1.getValues();
-    float** valuesIn2 = M_in2.getValues();
-    for (int i = 0; i<sizeOut[0]; i++)
-    {
-        for (int j = 0 ; j< sizeOut[1] ; j++)
-        {
-            valuesOut[i][j] = 0;
-            for (int k = 0 ; k< sizeIn1[0] ; k++)
-            {
-                valuesOut[i][j] += valuesIn1[i][k]*valuesIn2[k][j];
-            }
-        }
-    }
-    return M_out;
-}
+*/
 
 void printMat3D(Matrix3D<float> M_in)
 {
@@ -175,4 +225,76 @@ void printMat2D(Matrix2D<float> M_in)
         printf("\n");
     }
 }
+
+
+Matrix2D<float> mat3DtoHomogene2D(Matrix3D<float> M_in)
+{
+    int* sizeIn = M_in.getSize();
+    int sizeOut = {sizeIn[0]*sizeIn[1],sizeIn[2]+1}
+    Matrix2D<float> M_out = Matrix2D<float>(sizeOut);
+    float*** valuesIn = M_in.getValues();
+    float** valuesOut = M_out.getValues();
+    
+    for (int i = 0; i<sizeIn[0]; i++)
+    {
+        for (int j = 0 ; j< sizeIn[1] ; j++)
+        {
+            for (int k = 0 ; k<sizeIn[2] ; k++)
+            {
+                valuesOut[i*sizeIn[1]+j][k] = valuesIn[i][j][k];
+            }
+            valuesOut[i*sizeIn[1]+j][sizeIn[2]] = 1
+        }
+    }
+    return M_out ;
+}
+
+
+Matrix2D<float> cartToHomogene(Matrix2D<float> M_in, float eps)
+{
+    int* sizeIn = M_in.getSize();
+    int sizeOut = {sizeIn[0],sizeIn[1]+1}
+    Matrix2D<float> M_out = Matrix2D<float>(sizeOut);
+    float** valuesIn = M_in.getValues();
+    float** valuesOut = M_out.getValues();
+    
+    for (int i = 0; i<sizeIn[0]; i++)
+    {
+        for (int j = 0 ; j< sizeIn[1] ; j++)
+        {
+            valuesOut[i][j] = valuesIn[i][j];
+        }
+        valuesOut[i][sizeIn[1]] = 1;
+    }
+    return M_out ;
+}
+
+
+Matrix2D<float> homogeneToCart(Matrix2D<float> M_in, float eps)
+{
+    int* sizeIn = M_in.getSize();
+    int sizeOut = {sizeIn[0],sizeIn[1]-1}
+    Matrix2D<float> M_out = Matrix2D<float>(sizeOut);
+    float** valuesIn = M_in.getValues();
+    float** valuesOut = M_out.getValues();
+    Matrix2D<float> MhomoStd homoStandard(Matrix2D<float> M_in, float eps)
+    float** valuesInStd = MhomoStd.getValues();
+    for (int i = 0; i<sizeIn[0]; i++)
+    {
+        // en fait c'est relou a cause des points infinis
+        if (valuesInStd[sizeIn[1]-1] == 0.0){
+            for (int j = 0 ; j< sizeIn[1]-1 ; j++){
+                // on envois les points homo infinis à l'infinis en cartesien
+                valuesOut[i][j] = valuesInStd[i][j]*2/eps; // le fois  2 est la juste pour s'assurer qu'il est suffismenet loin et que la retransformation en homogene conservera son caractere infinis
+            }
+        }
+        else{
+            for (int j = 0 ; j< sizeIn[1]-1 ; j++){
+                valuesOut[i][j] = valuesInStd[i][j];
+            }
+        }
+    }
+    return M_out ;
+}
+
 
