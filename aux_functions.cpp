@@ -103,10 +103,9 @@ Matrix1D<float> normByRow(Matrix2D<float> M_in)
     int* size = M_in.getSize();
     int sizeOut = size[0];
     Matrix1D<float> M_out = Matrix1D<float>(sizeOut);
-    bool* valuesOut = M_out.getValues();
+    float* valuesOut = M_out.getValues();
     float** valuesIn = M_in.getValues();
     float tmp = 0.0;
-    *nTrue = 0;
     
     for (int i =0; i<size[0];i++)
     {
@@ -169,7 +168,7 @@ Matrix1D<bool> homoFinite(Matrix2D<float> M_in, float eps, int* nTrue)
     
     for (int i =0; i<size[0];i++)
     {
-        tmp = 0.0
+        tmp = 0.0;
         for (int j =0; i<size[1]-1;i++)
         {
             tmp += fabs(valuesIn[i][j]);
@@ -247,7 +246,7 @@ void printMat2D(Matrix2D<float> M_in)
 Matrix2D<float> mat3DtoHomogene2D(Matrix3D<float> M_in)
 {
     int* sizeIn = M_in.getSize();
-    int sizeOut = {sizeIn[0]*sizeIn[1],sizeIn[2]+1}
+    int sizeOut[2] = {sizeIn[0]*sizeIn[1],sizeIn[2]+1};
     Matrix2D<float> M_out = Matrix2D<float>(sizeOut);
     float*** valuesIn = M_in.getValues();
     float** valuesOut = M_out.getValues();
@@ -260,7 +259,7 @@ Matrix2D<float> mat3DtoHomogene2D(Matrix3D<float> M_in)
             {
                 valuesOut[i*sizeIn[1]+j][k] = valuesIn[i][j][k];
             }
-            valuesOut[i*sizeIn[1]+j][sizeIn[2]] = 1
+            valuesOut[i*sizeIn[1]+j][sizeIn[2]] = 1;
         }
     }
     return M_out ;
@@ -270,7 +269,7 @@ Matrix2D<float> mat3DtoHomogene2D(Matrix3D<float> M_in)
 Matrix2D<float> cartToHomogene(Matrix2D<float> M_in, float eps)
 {
     int* sizeIn = M_in.getSize();
-    int sizeOut = {sizeIn[0],sizeIn[1]+1}
+    int sizeOut[2] = {sizeIn[0],sizeIn[1]+1};
     Matrix2D<float> M_out = Matrix2D<float>(sizeOut);
     float** valuesIn = M_in.getValues();
     float** valuesOut = M_out.getValues();
@@ -290,16 +289,16 @@ Matrix2D<float> cartToHomogene(Matrix2D<float> M_in, float eps)
 Matrix2D<float> homogeneToCart(Matrix2D<float> M_in, float eps)
 {
     int* sizeIn = M_in.getSize();
-    int sizeOut = {sizeIn[0],sizeIn[1]-1}
+    int sizeOut[2] = {sizeIn[0],sizeIn[1]-1};
     Matrix2D<float> M_out = Matrix2D<float>(sizeOut);
     float** valuesIn = M_in.getValues();
     float** valuesOut = M_out.getValues();
-    Matrix2D<float> MhomoStd homoStandard(Matrix2D<float> M_in, float eps)
+    Matrix2D<float> MhomoStd = homoStandard(M_in, eps);
     float** valuesInStd = MhomoStd.getValues();
     for (int i = 0; i<sizeIn[0]; i++)
     {
         // en fait c'est relou a cause des points infinis
-        if (valuesInStd[sizeIn[1]-1] == 0.0){
+        if (valuesInStd[i][sizeIn[1]-1] == 0.0){
             for (int j = 0 ; j< sizeIn[1]-1 ; j++){
                 // on envois les points homo infinis à l'infinis en cartesien
                 valuesOut[i][j] = valuesInStd[i][j]*2/eps; // le fois  2 est la juste pour s'assurer qu'il est suffismenet loin et que la retransformation en homogene conservera son caractere infinis
