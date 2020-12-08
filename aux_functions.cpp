@@ -40,6 +40,23 @@ Matrix2D<float> sum2Dmat(Matrix2D<float> M_in1, Matrix2D<float> M_in2)
     return M_out ;
 }
 
+Matrix2D<float> diff2Dmat(Matrix2D<float> M_in1, Matrix2D<float> M_in2)
+{
+    int* size = M_in1.getSize();
+    Matrix2D<float> M_out = Matrix2D<float>(size);
+    float** values = M_out.getValues();
+    float** values1 = M_in1.getValues();
+    float** values2 = M_in2.getValues();
+    
+    for (int i = 0; i<size[0]; i++)
+    {
+        for (int j = 0 ; j< size[1] ; j++)
+        {
+            values[i][j] = values1[i][j] - values2[i][j];
+        }
+    }
+    return M_out ;
+}
 
 Matrix2D<float> transpose2D(Matrix2D<float> M_in)
 {
