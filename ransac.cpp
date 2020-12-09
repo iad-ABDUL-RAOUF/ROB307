@@ -8,6 +8,9 @@ Matrix2D<float> ransac(Matrix2D<float> X, Matrix2D<float> Hx, float threshold, i
         return nullptr;
     }
 
+    //Initialisation de la sortie
+    Matrix2D<float> outliers = nullptr;
+
     //Homogeneissation des points d'arrivee
     int* sizeX = Hx.getSize();
     float** valuesHx = Hx.getValues();
@@ -66,9 +69,10 @@ Matrix2D<float> ransac(Matrix2D<float> X, Matrix2D<float> Hx, float threshold, i
         //Selection et comptage des points qui sont suffisamment bons
         bool fitting[sizeX[0]];
         int nb_fitting = 0;
+        float err = 0;
         for (int i=0;i<sizeX[0];i++)
         {
-            float err = sqrt(pow(valuesEstmHx[i][1]-valuesHx[i][1],2) + pow(valuesEstmHx[i][2]-valuesHx[i][2],2));
+            err = sqrt(pow(valuesEstmHx[i][1]-valuesHx[i][1],2) + pow(valuesEstmHx[i][2]-valuesHx[i][2],2));
             if (err <threshold)
             {
                 nb_fitting +=1;
@@ -105,7 +109,50 @@ Matrix2D<float> ransac(Matrix2D<float> X, Matrix2D<float> Hx, float threshold, i
         
             //Recalcul plus precis de l'homographie
             H = DLT(fittingX,fittingHx);
+
+            //Calcul des nouveaux Hx estimes
+            tH = transpose2D(H);
+            estimatedHx = MatMult2D2D(X,tH);
+            //Homogeneisation des Hx estimes
+            for (int i = 0; i<sizeX[0]; i++)
+            {
+                for (int j = 0; j<sizeX[1];j++)
+                {
+                    valuesEstmHx[i][j] = valuesEstmHx[i][j]/valuesEstmHx[i][2];
+                }
+            }
+            //Selection et comptage des points qui sont suffisamment bons
+            nb_fitting = 0;
+            for (int i=0;i<sizeX[0];i++)
+            {
+                err = sqrt(pow(valuesEstmHx[i][1]-valuesHx[i][1],2) + pow(valuesEstmHx[i][2]-valuesHx[i][2],2));
+                if (err <threshold)
+                {
+                    nb_fitting +=1;
+                    fitting[i] = true;
+                }
+                else
+                {
+                    fitting[i] = false;
+                }
+            }
+
+            //Rassemblement des outliers
+            int sizeOut[2] = {sizeX[0]-nb_fitting,3};
+            outliers = Matrix2D<float>(sizeOut);
+            float** valuesOut = outliers.getValues();
+            int j=0;
+            for(int i =0; i<sizeX[0]; i++)
+            {
+                if(fitting[i] == false)
+                {
+                    valuesOut[j] = valuesX[i];
+                    j++;
+                }
+            }
         }
 
     }
+
+    return outliers;
 }
