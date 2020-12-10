@@ -49,6 +49,15 @@ public:
     {
         return values[i];
     }
+    void free()
+    {
+        for (int i=0; i<size[0];i++)
+        {
+            free(values[i]);
+        }
+        free(values);
+        free(size);
+    }
 };
 
 #endif
