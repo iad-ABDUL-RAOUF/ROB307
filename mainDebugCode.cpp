@@ -6,12 +6,16 @@
 
 int main()
 {
+<<<<<<< HEAD
     //RANSAC parameters
     float threshold = 1 ;//marge d'erreur acceptee en pixel pour dire qu'un point est bon
     int sample_size = 3;
     int goal_inliers = 1;
     int max_iterations = 100;
     int random_seed = 1024;
+=======
+    printf("#### Start main debug ####\n");
+>>>>>>> 1adebb151d765ad4135420886095370d44682e99
     
     
     printf("#### Start main ####\n\n");
@@ -126,6 +130,10 @@ int main()
     Matrix2D<float> outliers = ransac(x,Hx,threshold,sample_size,goal_inliers,max_iterations,random_seed);
     printf("Nb of outliers : %d\n", outliers.getSize()[0]);
     
+<<<<<<< HEAD
     printf("\n#### End main ####\n");
+=======
+    printf("#### End main debug ####\n");
+>>>>>>> 1adebb151d765ad4135420886095370d44682e99
     return 0;
 }
