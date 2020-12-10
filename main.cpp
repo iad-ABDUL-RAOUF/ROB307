@@ -42,8 +42,8 @@ int main()
     Matrix2D<float> wildAnimalPixels = nullptr;
     printf("--- DEBUT recherche des animaux sauvages dans la video ---")
     while (nFlot<nFlotTotal){
-        // flot de la carte sd a mettre dans la matrice flot
-        Matrix2D<float> flot = Matrix2D<float>(imSize);
+        // POUR L EQUIPE INTEGRATION : flot de la carte sd a mettre dans la matrice flot
+        Matrix2D<float> flot = Matrix2D<float>(imSize); // charger le flot optique la dedans
         nFlot = nFlot+1;
         // coordonnees des pixel apres deplacement
         frame2 = sum3Dmat(frame1, flot);
@@ -54,7 +54,13 @@ int main()
         printMat2D(wildAnimalPixels);
     }
     printf("--- FIN recherche des animaux sauvages dans la video ---")
+    printf("liberation de la memoire")
+    frame1.free()
+    frame2.free()
+    homogeneListe1.free()
+    homogeneListe2.free()
+    flot.free()
+    wildAnimalPixels.free()
     printf("#### End main ####\n");
-    
     return 0;
 }
