@@ -1,17 +1,20 @@
 #include "ransac.hpp"
 
-Matrix2D<float> ransac(Matrix2D<float> X, Matrix2D<float> Hx, float threshold, int samplesize, int goal_inliers, int max_iter)
+Matrix2D<float> ransac(Matrix2D<float> X, Matrix2D<float> Hx, float threshold, int samplesize, int goal_inliers, int max_iter, int random_seed)
 {
-    if(samplesize<4)
-    {
-        printf("sample_size should be an int equal to 4 or higher");
-        return nullptr;
-    }
+    printf("n###### Ransac ######\n\n");
 
     //Initialisation de la sortie
-    Matrix2D<float> outliers = nullptr;
+    Matrix2D<float> outliers ;
 
-    //Homogeneissation des points d'arrivee
+    if(samplesize < 4)
+    {
+        printf("sample_size should be an int equal to 4 or higher");
+        return outliers;
+    }
+
+    //Homogeneisation des points d'arrivee
+    printf("Homogeneisation des points d'arrivee\n");
     int* sizeX = Hx.getSize();
     float** valuesHx = Hx.getValues();
     float** valuesX = X.getValues();
@@ -27,6 +30,7 @@ Matrix2D<float> ransac(Matrix2D<float> X, Matrix2D<float> Hx, float threshold, i
     srand(random_seed);
 
 
+    printf("Initialisation objets pour while\n");
     int n_iter = 0;
     bool good_enough = false;
     int rand_index[samplesize];
@@ -35,6 +39,15 @@ Matrix2D<float> ransac(Matrix2D<float> X, Matrix2D<float> Hx, float threshold, i
     Matrix2D<float> randHx = Matrix2D<float>(sizeXrand);
     float** valuesXrand = randX.getValues();
     float** valuesHxrand = randHx.getValues();
+    Matrix2D<float> H;
+    Matrix2D<float> tH;
+    Matrix2D<float> estimatedHx;
+    float** valuesEstmHx;
+    Matrix2D<float> fittingX;
+    float** valuesFX;
+    Matrix2D<float> fittingHx;
+    float** valuesFHx;
+    printf("Debut du while\n");
     while(!good_enough && n_iter < max_iter )
     {
         //Creation d'une liste d'indices aleatoires
@@ -51,14 +64,14 @@ Matrix2D<float> ransac(Matrix2D<float> X, Matrix2D<float> Hx, float threshold, i
 
         //Calcul de l'homographie associee
         
-        Matrix2D<float> H = DLT(randX,randHx);
+        H = DLT(randX,randHx);
 
         //Determiner les points qui correspondent effectivement a cette homographie
         
-        Matrix2D<float> tH = transpose2D(H);
-        Matrix2D<float> estimatedHx = MatMult2D2D(X,tH);
+        tH = transpose2D(H);
+        estimatedHx = MatMult2D2D(X,tH);
         //Homogeneisation des Hx estimes
-        float** valuesEstmHx = estimatedHx.getValues();
+        valuesEstmHx = estimatedHx.getValues();
         for (int i = 0; i<sizeX[0]; i++)
         {
             for (int j = 0; j<sizeX[1];j++)
@@ -88,14 +101,15 @@ Matrix2D<float> ransac(Matrix2D<float> X, Matrix2D<float> Hx, float threshold, i
 
         if (nb_fitting >= goal_inliers)
         {
+            printf("Une bonne homographie a ete trouvee\n");
             good_enough = true;
 
             //Copie des points qui suivent bien l'homographie trouvee
             int sizeFit[2] = {nb_fitting,3};
-            Matrix2D<float> fittingX = Matrix2D<float>(sizeFit);
-            Matrix2D<float> fittingHx = Matrix2D<float>(sizeFit);
-            float** valuesFX = fittingX.getValues();
-            float** valuesFHx = fittingHx.getValues();
+            fittingX = Matrix2D<float>(sizeFit);
+            fittingHx = Matrix2D<float>(sizeFit);
+            valuesFX = fittingX.getValues();
+            valuesFHx = fittingHx.getValues();
             int j=0;
             for (int i = 0; i<sizeX[0]; i++)
             {
@@ -141,7 +155,7 @@ Matrix2D<float> ransac(Matrix2D<float> X, Matrix2D<float> Hx, float threshold, i
             int sizeOut[2] = {sizeX[0]-nb_fitting,3};
             outliers = Matrix2D<float>(sizeOut);
             float** valuesOut = outliers.getValues();
-            int j=0;
+            j=0;
             for(int i =0; i<sizeX[0]; i++)
             {
                 if(fitting[i] == false)
@@ -153,11 +167,12 @@ Matrix2D<float> ransac(Matrix2D<float> X, Matrix2D<float> Hx, float threshold, i
         }
 
     }
-    randX.free()
-    randHx.free()
-    tH.free()
-    estimatedHx.free()
-    fittingX.free()
-    fittingHx.free()
+    printf("Liberation des objets\n");
+    randX.freeM();
+    randHx.freeM();
+    tH.freeM();
+    estimatedHx.freeM();
+    fittingX.freeM();
+    fittingHx.freeM();
     return outliers;
 }

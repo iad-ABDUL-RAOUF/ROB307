@@ -8,6 +8,8 @@ private:
     int size;
     T* values;
 public:
+    Matrix1D() {} //constructeur par defaut
+
     Matrix1D(int s) //constructeur
     {
         size = s;
@@ -49,12 +51,8 @@ public:
     {
         return values[i];
     }
-    void free()
+    void freeM()
     {
-        for (int i=0; i<size[0];i++)
-        {
-            free(values[i]);
-        }
         free(values);
         free(size);
     }

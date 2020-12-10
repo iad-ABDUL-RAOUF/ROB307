@@ -232,7 +232,7 @@ void printMat2D(Matrix2D<float> M_in)
 {
     int* size = M_in.getSize();
     float** values = M_in.getValues();
-    printf("matrice 2D =\n");
+    // printf("matrice 2D =\n");
     for (int i = 0; i<size[0]; i++)
     {
         for (int j = 0 ; j< size[1] ; j++)
@@ -292,7 +292,7 @@ Matrix2D<float> homogeneToCart(Matrix2D<float> M_in, float eps)
     int* sizeIn = M_in.getSize();
     int sizeOut[2] = {sizeIn[0],sizeIn[1]-1};
     Matrix2D<float> M_out = Matrix2D<float>(sizeOut);
-    float** valuesIn = M_in.getValues();
+    // float** valuesIn = M_in.getValues();
     float** valuesOut = M_out.getValues();
     Matrix2D<float> MhomoStd = homoStandard(M_in, eps);
     float** valuesInStd = MhomoStd.getValues();
@@ -311,7 +311,7 @@ Matrix2D<float> homogeneToCart(Matrix2D<float> M_in, float eps)
             }
         }
     }
-    MhomoStd.free()
+    MhomoStd.freeM();
     return M_out ;
 }
 

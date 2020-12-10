@@ -85,8 +85,8 @@ Matrix2D<float> DLT(Matrix2D<float> x, Matrix2D<float> Hx)
         valuesM[2*i+1][7] = valuesFHx[i][1]*valuesFx[i][1];
         valuesM[2*i+1][8] = valuesFHx[i][1];
     }
-    finite_x.free();
-    finite_Hx.free();
+    finite_x.freeM();
+    finite_Hx.freeM();
     printf("M : \n");
     printMat2D(M);
     /*
@@ -121,7 +121,7 @@ Matrix2D<float> DLT(Matrix2D<float> x, Matrix2D<float> Hx)
     }
     */
     // retourne la matrice identite. Sert a tester le code
-    M.free();
+    M.freeM();
     printf("construction fake H \n");
     int sizeH[2] = {3,3};
     Matrix2D<float> H = Matrix2D<float>(sizeH);

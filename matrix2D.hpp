@@ -9,6 +9,8 @@ private:
     int size[2];
     T** values;
 public:
+    Matrix2D() {} //constructeur par defaut
+
     Matrix2D(int s[2]) //constructeur
     {
         size[0] = s[0];
@@ -60,14 +62,10 @@ public:
     {
         return values[i][j];
     }
-    void free()
+    void freeM()
     {
         for (int i=0; i<size[0];i++)
         {
-            for (intj=0; j<size[1], j++)
-            {
-                free(values[i][j]);
-            }
             free(values[i]);
         }
         free(values);

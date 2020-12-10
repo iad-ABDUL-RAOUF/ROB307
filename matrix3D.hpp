@@ -9,6 +9,8 @@ private:
     int size[3];
     T*** values;
 public:
+    Matrix3D() {} //constructeur par defaut
+
     Matrix3D(int s[3]) //constructeur
     {
         size[0] = s[0];
@@ -68,16 +70,12 @@ public:
     {
         return values[i][j][k];
     }
-    void free()
+    void freeM()
     {
         for (int i=0; i<size[0];i++)
         {
-            for (intj=0; j<size[1], j++)
+            for (int j=0; j<size[1]; j++)
             {
-                for(int k=0;k<size[2], k++)
-                {
-                    free(values[i][j][k]);
-                }
                 free(values[i][j]);
             }
             free(values[i]);
