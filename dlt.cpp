@@ -4,7 +4,7 @@
 
 Matrix2D<float> DLT(Matrix2D<float> x, Matrix2D<float> Hx)
 {
-    printf("---- DLT debut ---- \n");
+    // printf("---- DLT debut ---- \n");
     float epsilon = 0.0000001;
     int N = x.getSize()[0] ;
     float** valuesHx = Hx.getValues();
@@ -13,7 +13,7 @@ Matrix2D<float> DLT(Matrix2D<float> x, Matrix2D<float> Hx)
     int nb_finite_points=0 ;
 
     // calcul de qui sont les points finis, et combien ils sont
-    printf("calcul de qui sont les points finis \n");
+    // printf("calcul de qui sont les points finis \n");
     for (int i =0; i<N;i++)
     {
         //abs codee dans stdlib n'est valable que sur des entiers
@@ -25,7 +25,7 @@ Matrix2D<float> DLT(Matrix2D<float> x, Matrix2D<float> Hx)
             nb_finite_points++;
         }
     }
-    if(nb_finite_points <4)
+    if(nb_finite_points <4) //assert(nb_finite_points<4) ?
     {
         printf("not enough finite point in DLTcalib2 input. A least 4 finite pairs required");
         return nullptr;
@@ -33,7 +33,7 @@ Matrix2D<float> DLT(Matrix2D<float> x, Matrix2D<float> Hx)
 
     // On sauvegarde les coordonnees des points donc a la fois l'image et l'antecedent sont finis.
     // Et on renormalise en meme temps pour que la 3e coordonnees soit egale a 1
-    printf("sauvegarde des points finis \n");
+    // printf("sauvegarde des points finis \n");
     int size[2] = {nb_finite_points,3};
     Matrix2D<float> finite_Hx = Matrix2D<float>(size);
     Matrix2D<float> finite_x = Matrix2D<float>(size);
@@ -63,7 +63,7 @@ Matrix2D<float> DLT(Matrix2D<float> x, Matrix2D<float> Hx)
     }
     free(finite_bool);
     // creation de la matrice M du systeme
-    printf("creation de la matrice M du systeme \n");
+    // printf("creation de la matrice M du systeme \n");
     int sizeM[2] = {2*nb_finite_points, 9};
     Matrix2D<float> M = Matrix2D<float>(sizeM);
     float** valuesM = M.getValues();
@@ -87,8 +87,10 @@ Matrix2D<float> DLT(Matrix2D<float> x, Matrix2D<float> Hx)
     }
     finite_x.freeM();
     finite_Hx.freeM();
-    printf("M : \n");
-    printMat2D(M);
+    // printf("M : \n");
+    // printMat2D(M);
+
+    
     /*
     std::vector<vector<float>> vectM(sizeM[0], vector<float> (sizeM[1], 0));
     for (int i = 0; i<sizeM[0]; i++)
@@ -122,22 +124,32 @@ Matrix2D<float> DLT(Matrix2D<float> x, Matrix2D<float> Hx)
     */
     // retourne la matrice identite. Sert a tester le code
     M.freeM();
-    printf("construction fake H \n");
+    // printf("construction fake H \n");
     int sizeH[2] = {3,3};
     Matrix2D<float> H = Matrix2D<float>(sizeH);
     float** valuesH = H.getValues();
-    for (int i = 0; i<3; i++)
-    {
-        for (int j = 0; j<3; j++)
-        {
-            if (j == i){
-                valuesH[i][j] = 1;
-            }
-            else{
-                valuesH[i][j] = 0;
-            }
-        }
-    }
-    printf("---- DLT fin ---- \n");
+    // for (int i = 0; i<3; i++)
+    // {
+    //     for (int j = 0; j<3; j++)
+    //     {
+    //         if (j == i){
+    //             valuesH[i][j] = 1;
+    //         }
+    //         else{
+    //             valuesH[i][j] = 0;
+    //         }
+    //     }
+    // }
+    valuesH[0][0] = 1.37054309;
+    valuesH[0][1] = 0.326472981;
+    valuesH[0][2] = -90.9781842;
+    valuesH[1][0] = 0.00346896567;
+    valuesH[1][1] = 1.65383589;
+    valuesH[1][2] = -77.8613246;
+    valuesH[2][0] = 0.000173448284;
+    valuesH[2][1] = 0.00114069045;
+    valuesH[2][2] = 1.0;
+
+    // printf("---- DLT fin ---- \n");
     return H;
 }

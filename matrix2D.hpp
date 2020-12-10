@@ -64,12 +64,13 @@ public:
     }
     void freeM()
     {
+        // printf("free mat size %d,%d\n",size[0],size[1]);
         for (int i=0; i<size[0];i++)
         {
             free(values[i]);
+            // printf("freed value %d\n", i);
         }
         free(values);
-        free(size);
     }
 };
 

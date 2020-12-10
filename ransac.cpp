@@ -50,6 +50,7 @@ Matrix2D<float> ransac(Matrix2D<float> X, Matrix2D<float> Hx, float threshold, i
     printf("Debut du while\n");
     while(!good_enough && n_iter < max_iter )
     {
+        printf("Iteration %d\n",n_iter);
         //Creation d'une liste d'indices aleatoires
         for (int i = 0; i<samplesize ; i++) 
         {
@@ -101,7 +102,7 @@ Matrix2D<float> ransac(Matrix2D<float> X, Matrix2D<float> Hx, float threshold, i
 
         if (nb_fitting >= goal_inliers)
         {
-            printf("Une bonne homographie a ete trouvee\n");
+            printf("Une bonne homographie a ete trouvee : nb fitting = \%d\n",nb_fitting);
             good_enough = true;
 
             //Copie des points qui suivent bien l'homographie trouvee
@@ -150,6 +151,7 @@ Matrix2D<float> ransac(Matrix2D<float> X, Matrix2D<float> Hx, float threshold, i
                     fitting[i] = false;
                 }
             }
+            printf("nb fitting = %d\n", nb_fitting);
 
             //Rassemblement des outliers
             int sizeOut[2] = {sizeX[0]-nb_fitting,3};
@@ -165,14 +167,15 @@ Matrix2D<float> ransac(Matrix2D<float> X, Matrix2D<float> Hx, float threshold, i
                 }
             }
         }
+        n_iter ++;
 
     }
     printf("Liberation des objets\n");
-    randX.freeM();
-    randHx.freeM();
-    tH.freeM();
-    estimatedHx.freeM();
-    fittingX.freeM();
-    fittingHx.freeM();
+    // randX.freeM();
+    // randHx.freeM();
+    // tH.freeM();
+    // estimatedHx.freeM();
+    // fittingX.freeM();
+    // fittingHx.freeM();
     return outliers;
 }

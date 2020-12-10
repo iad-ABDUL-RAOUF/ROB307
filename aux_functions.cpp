@@ -76,9 +76,10 @@ Matrix2D<float> transpose2D(Matrix2D<float> M_in)
 }
 
 Matrix2D<float> MatMult2D2D(Matrix2D<float> M_in1, Matrix2D<float> M_in2)
-{
+{    
     int* sizeIn1 = M_in1.getSize();
     int* sizeIn2 = M_in2.getSize();
+    assert(sizeIn1[1]==sizeIn2[0]); //Verification que la multiplication est possible
     int sizeOut[2] = {sizeIn1[0], sizeIn2[1]};
     Matrix2D<float> M_out = Matrix2D<float>(sizeOut);
     float** valuesOut = M_out.getValues();
@@ -86,10 +87,10 @@ Matrix2D<float> MatMult2D2D(Matrix2D<float> M_in1, Matrix2D<float> M_in2)
     float** valuesIn2 = M_in2.getValues();
     for (int i = 0; i<sizeOut[0]; i++)
     {
-        for (int j = 0 ; j< sizeOut[1] ; j++)
+        for (int j = 0 ; j < sizeOut[1] ; j++)
         {
             valuesOut[i][j] = 0;
-            for (int k = 0 ; k< sizeIn1[0] ; k++)
+            for (int k = 0 ; k< sizeIn1[1] ; k++)
             {
                 valuesOut[i][j] += valuesIn1[i][k]*valuesIn2[k][j];
             }
@@ -235,11 +236,12 @@ void printMat2D(Matrix2D<float> M_in)
     // printf("matrice 2D =\n");
     for (int i = 0; i<size[0]; i++)
     {
+        printf("[");
         for (int j = 0 ; j< size[1] ; j++)
         {
             printf("%f,",values[i][j]);
         }
-        printf("\n");
+        printf("]\n");
     }
 }
 

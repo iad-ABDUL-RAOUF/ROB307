@@ -81,7 +81,6 @@ public:
             free(values[i]);
         }
         free(values);
-        free(size);
     }
 };
 
