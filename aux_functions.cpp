@@ -184,6 +184,7 @@ Matrix1D<bool> homoFinite(Matrix2D<float> M_in, float eps, int* nTrue)
 }
 
 /*
+verifier si c'est bien fini
 Matrix1D<float> normByRowHomo(Matrix2D<float> M_in)
 {
     int* size = M_in.getSize();
@@ -310,6 +311,7 @@ Matrix2D<float> homogeneToCart(Matrix2D<float> M_in, float eps)
             }
         }
     }
+    MhomoStd.free()
     return M_out ;
 }
 

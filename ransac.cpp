@@ -153,6 +153,11 @@ Matrix2D<float> ransac(Matrix2D<float> X, Matrix2D<float> Hx, float threshold, i
         }
 
     }
-
+    randX.free()
+    randHx.free()
+    tH.free()
+    estimatedHx.free()
+    fittingX.free()
+    fittingHx.free()
     return outliers;
 }

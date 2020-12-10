@@ -16,7 +16,7 @@ Matrix1D<float> normByRow(Matrix2D<float> M_in);
 // fonction sur coordonnees homogene
 Matrix2D<float> homoStandard(Matrix2D<float> M_in, float eps);
 Matrix1D<bool> homoFinite(Matrix2D<float> M_in, float eps, int* nTrue);
-Matrix1D<float> normByRowHomo(Matrix2D<float> M_in);
+// Matrix1D<float> normByRowHomo(Matrix2D<float> M_in); verifier si c'est bien fini
 // affichage
 void printMat3D(Matrix3D<float> M_in);
 void printMat2D(Matrix2D<float> M_in);
