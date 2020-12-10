@@ -5,7 +5,22 @@
 
 int main()
 {
-    printf("#### Start main debug ####\n");
+    printf("#### Start main ####\n");
+    
+    int nImagesTotal = 2; // nombre d'image total dans la video.
+    int nImage = 0;
+    printf("load data\n");
+    // charger les deux images stocké dans la carte sd.
+    // La premiere image à mettre dans frame 1 et la deuxième dans frame 2
+    imSize[2] = {36,64};
+    Matrix2D<float> frame1 = Matrix2D<float>(imSize);
+    Matrix2D<float> frame2 = Matrix2D<float>(imSize);
+    nImage = nImage+1;
+    
+    
+    
+    
+    
     
     printf("Create M1\n");
     int sizeM1[3] = {4,3,2};
@@ -113,6 +128,6 @@ int main()
     printMat2D(estimatedH);
     
     
-    printf("#### End main debug ####\n");
+    printf("#### End main ####\n");
     return 0;
 }
