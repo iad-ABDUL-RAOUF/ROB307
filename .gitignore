@@ -6,6 +6,13 @@ __pycache__/
 # C extensions
 *.so
 
+# executable
+debug.out
+execFile
+
+# fichier perso iad
+debug_perso.py
+
 .vscode
 main.o
 
