@@ -2,7 +2,7 @@
 
 Matrix2D<float> ransac(Matrix2D<float> X, Matrix2D<float> Hx, float threshold, int samplesize, int goal_inliers, int max_iter, int random_seed)
 {
-    printf("n###### Ransac ######\n\n");
+    printf("---- DEBUT Ransac ----\n");
 
     //Initialisation de la sortie
     int defaultSize[2] = {0,0};
@@ -10,7 +10,7 @@ Matrix2D<float> ransac(Matrix2D<float> X, Matrix2D<float> Hx, float threshold, i
 
     if(samplesize < 4)
     {
-        printf("sample_size should be an int equal to 4 or higher");
+        printf("sample_size should be an int equal to 4 or higher\n");
         return outliers;
     }
 
@@ -178,5 +178,6 @@ Matrix2D<float> ransac(Matrix2D<float> X, Matrix2D<float> Hx, float threshold, i
     // estimatedHx.freeM();
     // fittingX.freeM();
     // fittingHx.freeM();
+    printf("---- FIN Ransac ----\n");
     return outliers;
 }
