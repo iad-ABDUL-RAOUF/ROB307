@@ -48,10 +48,9 @@ Matrix2D<float> ransac(Matrix2D<float> X, Matrix2D<float> Hx, float threshold, i
     float** valuesFX;
     Matrix2D<float> fittingHx;
     float** valuesFHx;
-    printf("Debut du while\n");
+    printf("DEBUT while\n");
     while(!good_enough && n_iter < max_iter )
     {
-        printf("Iteration %d\n",n_iter);
         //Creation d'une liste d'indices aleatoires
         for (int i = 0; i<samplesize ; i++) 
         {
@@ -171,6 +170,7 @@ Matrix2D<float> ransac(Matrix2D<float> X, Matrix2D<float> Hx, float threshold, i
         n_iter ++;
 
     }
+    printf("FIN while at iteration %d\n",n_iter);
     printf("Liberation des objets\n");
     // randX.freeM();
     // randHx.freeM();

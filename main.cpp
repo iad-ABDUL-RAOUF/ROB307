@@ -16,7 +16,7 @@ int main()
     // RANSAC parameters
     float threshold = 1; // marge d'erreur accepté en pixel pour dire qu'un point fit
     int sample_size = 5;
-    int goal_inliers = 5 ;//(int)(imSize[0]*imSize[1]*0.6); // TODO
+    int goal_inliers = (int)(imSize[0]*imSize[1]*0.6);
     int max_iterations = 100;
     int random_seed = 123456;
     
@@ -38,9 +38,9 @@ int main()
     
     // mets ces coordonnes dans le format souhaite (taille N x 3)
     int sizeHomogeneListe[2] = {imSize[0]*imSize[1],3};
-    //Matrix2D<float> homogeneListe1 = Matrix2D<float>(sizeHomogeneListe); //TODO
-    //Matrix2D<float> homogeneListe2 = Matrix2D<float>(sizeHomogeneListe); //TODO
-    //homogeneListe1 = mat3DtoHomogene2D(frame1); //TODO
+    Matrix2D<float> homogeneListe1 = Matrix2D<float>(sizeHomogeneListe);
+    Matrix2D<float> homogeneListe2 = Matrix2D<float>(sizeHomogeneListe);
+    homogeneListe1 = mat3DtoHomogene2D(frame1);
     
     Matrix3D<float> flot = Matrix3D<float>(sizeFrame);
     Matrix2D<float> wildAnimalPixels;
@@ -52,9 +52,7 @@ int main()
         // coordonnees des pixel apres deplacement
         frame2 = sum3Dmat(frame1, flot);
         // met ces coordonnees dans le format souhaite (taille N x 3)
-        // homogeneListe2 = mat3DtoHomogene2D(frame2); //TODO
-        // printMat2D(homogeneListe1); //TODO
-        // printMat2D(homogeneListe2); //TODO
+        homogeneListe2 = mat3DtoHomogene2D(frame2);
         wildAnimalPixels = ransac( homogeneListe1, homogeneListe2, threshold, sample_size, goal_inliers, max_iterations, random_seed);
         printf("image %d : mouvement detecte sur les pixels suivants :\n",nFlot);
         printMat2D(wildAnimalPixels);
