@@ -51,8 +51,7 @@ public:
                 values[i][j] = (T*) malloc(size[2] * sizeof(T));
                 assert(values[i][j]);
             }
-        }
-        printf("end allocateValues mat3D\n");              
+        }            
     }
     void setValues(T*** v)
     {

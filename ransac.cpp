@@ -5,7 +5,8 @@ Matrix2D<float> ransac(Matrix2D<float> X, Matrix2D<float> Hx, float threshold, i
     printf("n###### Ransac ######\n\n");
 
     //Initialisation de la sortie
-    Matrix2D<float> outliers ;
+    int defaultSize[2] = {0,0};
+    Matrix2D<float> outliers = Matrix2D<float>(defaultSize) ;
 
     if(samplesize < 4)
     {
