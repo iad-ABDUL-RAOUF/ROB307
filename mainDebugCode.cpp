@@ -8,7 +8,7 @@ int main()
 {
     //RANSAC parameters
     float threshold = 1 ;//marge d'erreur acceptee en pixel pour dire qu'un point est bon
-    int sample_size = 4;
+    int sample_size = 5;
     int goal_inliers = 1;
     int max_iterations = 100;
     int random_seed = 1024;
@@ -75,8 +75,8 @@ int main()
     valuesx[3][1] = 200;
     valuesx[4][0] = 300;
     valuesx[4][1] = 140;
-    valuesx[5][1] = 50;
-    valuesx[5][2] = 100000;
+    valuesx[5][1] = 55;
+    valuesx[5][2] = 240;
     // printf("x : \n");
     // printMat2D(x);
 
@@ -115,6 +115,11 @@ int main()
     Hx = transpose2D(tHx);
     // printf("Hx : \n");
     // printMat2D(Hx);
+    
+    // create an outlier
+    float** valuesHx = Hx.getValues();
+    valuesHx[5][1] = valuesHx[5][1] +6;
+    valuesHx[5][2] = valuesHx[5][1] -6;
     
     // printf("Estimating H with DLT algorithm\n");
     // Matrix2D<float> estimatedH = Matrix2D<float>(sizeH);
